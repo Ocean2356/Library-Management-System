@@ -7,6 +7,7 @@ enum type
 class exemplaire
 enum etat 
 class contributeur
+class contributeur_ressource
 
 class compte_personnel
 class personnel 
@@ -28,7 +29,23 @@ skinparam groupInheritance 2
 ressource <|-- livre
 ressource <|-- film
 ressource <|-- enregistrement_musical
-ressource -- contributeur
+
+
+
+livre "*" -- "1..*" contributeur
+(livre, contributeur) . auteur
+enregistrement_musical "*" -- "1..*" contributeur
+(enregistrement_musical, contributeur) . compositeur
+enregistrement_musical "*" -- "1..*" contributeur
+(enregistrement_musical, contributeur) . interprete
+film "*" -- "1..*" contributeur
+(film, contributeur) . realisateur
+film "*" -- "1..*" contributeur
+(film, contributeur) . acteur
+
+
+
+
 
 ressource *-- "*" exemplaire
 
@@ -50,5 +67,106 @@ compte_adherant "*" -- "*" exemplaire
 compte_adherant "*" -- "*" exemplaire
 (compte_adherant, exemplaire) . pret
 
+enum etat{
+    neuf 
+    bon
+    abime 
+    perdu
+}
+
+enum situation{
+    normal
+    suspendu
+    blackliste
+
+}
+
+class ressource{
+    'Numeric manque paramètre
+    code : numeric {key}
+    titre : text
+    dateApparition : date 
+    editeur : text
+    genre : text
+    codeClassification :numeric
+}
+
+class contributeur{
+    nom : text
+    prenom : text
+    dateNaissance : date
+    nationalite : text
+}
+
+class livre{
+    ISBN : numeric {key}
+    resume : text
+    langue : text
+}
+
+class film{
+    longeur : integer
+    langue : text
+}
+
+class enregistrement_musical{
+    longeur : integer
+    synopsis : text
+    langue : text
+}
+
+class exemplaire{
+    idExemplaire : numeric
+    etat : etat
+}
+
+class personnel{
+    nom : text
+    prenom : text
+    adresse : text
+    email : text
+}
+
+class compte_personnel{
+    login : text {key}
+    motDePasse : text
+}
+
+class contributeur_ressource{
+    fonction : text
+}
+
+class adherant{
+    numeroCarte : numeric {key}
+    nom : text
+    prenom : text
+    dateNaissance : date
+    adresse : text
+    email : text
+    telephone : numeric
+}
+
+'Un héritage pour compte_adhérant?
+
+class compte_adherant{
+    login : text {key}
+    motDePasse : text
+    etatCompte : boolean
+    suspenduJusque : date {optional}
+    sommeDu : integer
+    blackliste : boolean
+    actuelle : boolean
+}
+
+class pret{
+    dateEmprunte : date
+    dureeLimitee : integer
+    dateRetourne : date {optional}
+    etatRetourne : etat {optional}
+}
+
+class reservation{
+    dateReserve : date
+}
 
 @enduml
