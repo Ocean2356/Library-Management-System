@@ -1,13 +1,15 @@
 @startuml MCD Biblio
-abstract class ressource
-class livre
-class film
-class enregistrement_musical
 
+annotation ANNOTATION #aliceblue;line:blue;line.dotted;text:blue 
+{
+    le compte_personnel 
+    a accès à tous modifier
+}
+etat -[hidden]- ANNOTATION
+
+class ressource
 class exemplaire
 enum etat 
-class contributeur
-class contributeur_ressource
 
 class compte_personnel
 class personnel 
@@ -16,52 +18,39 @@ class adherant
 
 class pret 
 class reservation
-/'
-class ajout_ressource
-class modif_ressource
-class ajout_exemplaire
-class modif_exemplaire
-'/
 
-
+together {
+class livre
+class film
+class enregistrement_musical
+}
+class auteur
+class realisateur
+class acteur
+class compositeur
+class interprete
 
 skinparam groupInheritance 2
 ressource <|-- livre
 ressource <|-- film
 ressource <|-- enregistrement_musical
 
-
-
-livre "*" -- "1..*" contributeur
+livre "*" -- "1..*" contributeur : < ecrit
 (livre, contributeur) . auteur
-enregistrement_musical "*" -- "1..*" contributeur
+enregistrement_musical "*" - "1..*" contributeur : < compose 
 (enregistrement_musical, contributeur) . compositeur
-enregistrement_musical "*" -- "1..*" contributeur
+enregistrement_musical "*" - "1..*" contributeur : < interprete 
 (enregistrement_musical, contributeur) . interprete
-film "*" -- "1..*" contributeur
+film "*" - "1..*" contributeur : < realise 
 (film, contributeur) . realisateur
-film "*" -- "1..*" contributeur
+film "*" - "1..*" contributeur : < acte 
 (film, contributeur) . acteur
-
-
-
-
 
 ressource *-- "*" exemplaire
 
-compte_personnel "1" -- "1" personnel
-compte_personnel "*" -- "*" ressource
-/'
-compte_personnel "*" -- "*" ressource
-(compte_personnel, ressource) . ajout_ressource
-compte_personnel "*" -- "*" ressource
-(compte_personnel, ressource) . modif_ressource
-compte_personnel "*" -- "*" exemplaire
-(compte_personnel, exemplaire) . ajout_exemplaire
-compte_personnel "*" -- "*" exemplaire
-(compte_personnel, exemplaire) . modif_exemplaire
-'/
-compte_adherant "1" -- "1" adherant
+compte_personnel "1" - "1" personnel
+'compte_personnel "*" -- "*" ressource
+compte_adherant "1" - "1" adherant
 compte_adherant "*" -- "*" exemplaire
 (compte_adherant, exemplaire) . reservation
 compte_adherant "*" -- "*" exemplaire
@@ -74,13 +63,6 @@ enum etat{
     perdu
 }
 
-enum situation{
-    normal
-    suspendu
-    blackliste
-
-}
-
 class ressource{
     'Numeric manque paramètre
     code : numeric {key}
@@ -88,7 +70,7 @@ class ressource{
     dateApparition : date 
     editeur : text
     genre : text
-    codeClassification :numeric
+    codeClassification : numeric
 }
 
 class contributeur{
@@ -130,10 +112,6 @@ class personnel{
 class compte_personnel{
     login : text {key}
     motDePasse : text
-}
-
-class contributeur_ressource{
-    fonction : text
 }
 
 class adherant{
