@@ -1,0 +1,54 @@
+@startuml MCD Biblio
+abstract class ressource
+class livre
+class film
+class enregistrement_musical
+enum type
+class exemplaire
+enum etat 
+class contributeur
+
+class compte_personnel
+class personnel 
+class compte_adherant
+class adherant
+
+class pret 
+class reservation
+/'
+class ajout_ressource
+class modif_ressource
+class ajout_exemplaire
+class modif_exemplaire
+'/
+annotation annotation
+
+
+skinparam groupInheritance 2
+ressource <|-- livre
+ressource <|-- film
+ressource <|-- enregistrement_musical
+ressource -- contributeur
+
+ressource *-- "*" exemplaire
+
+compte_personnel "1" -- "1" personnel
+compte_personnel "*" -- "*" ressource
+/'
+compte_personnel "*" -- "*" ressource
+(compte_personnel, ressource) . ajout_ressource
+compte_personnel "*" -- "*" ressource
+(compte_personnel, ressource) . modif_ressource
+compte_personnel "*" -- "*" exemplaire
+(compte_personnel, exemplaire) . ajout_exemplaire
+compte_personnel "*" -- "*" exemplaire
+(compte_personnel, exemplaire) . modif_exemplaire
+'/
+compte_adherant "1" -- "1" adherant
+compte_adherant "*" -- "*" exemplaire
+(compte_adherant, exemplaire) . reservation
+compte_adherant "*" -- "*" exemplaire
+(compte_adherant, exemplaire) . pret
+
+
+@enduml
