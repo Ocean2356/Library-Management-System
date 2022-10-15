@@ -1,5 +1,6 @@
 @startuml MCD Biblio
-
+!theme sketchy-outline
+skinparam Shadowing true
 annotation ANNOTATION #aliceblue;line:blue;line.dotted;text:blue 
 {
     le compte_personnel 
@@ -35,15 +36,23 @@ ressource <|-- livre
 ressource <|-- film
 ressource <|-- enregistrement_musical
 
-livre "*" -- "1..*" contributeur : < ecrit
+skinparam activity {
+    ArrowFontSize 10
+}
+livre "*" -- "1..*" contributeur
+' : < ecrit
 (livre, contributeur) . auteur
-enregistrement_musical "*" - "1..*" contributeur : < compose 
+enregistrement_musical "*" - "1..*" contributeur
+' : < compose 
 (enregistrement_musical, contributeur) . compositeur
-enregistrement_musical "*" - "1..*" contributeur : < interprete 
+enregistrement_musical "*" - "1..*" contributeur
+' : < interprete 
 (enregistrement_musical, contributeur) . interprete
-film "*" - "1..*" contributeur : < realise 
+film "*" - "1..*" contributeur
+' : < realise 
 (film, contributeur) . realisateur
-film "*" - "1..*" contributeur : < acte 
+film "*" - "1..*" contributeur
+' : < acte 
 (film, contributeur) . acteur
 
 ressource *-- "*" exemplaire
