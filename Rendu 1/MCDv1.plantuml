@@ -3,7 +3,7 @@ abstract class ressource
 class livre
 class film
 class enregistrement_musical
-enum type
+
 class exemplaire
 enum etat 
 class contributeur
@@ -22,7 +22,7 @@ class modif_ressource
 class ajout_exemplaire
 class modif_exemplaire
 '/
-annotation annotation
+
 
 
 skinparam groupInheritance 2
