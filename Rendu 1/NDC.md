@@ -1,4 +1,4 @@
-# Note_de_Clarification
+# Note de clarification
 
 ### Liste des objets qui devront être gérés dans la base de données
 *   Compte_adhérent
