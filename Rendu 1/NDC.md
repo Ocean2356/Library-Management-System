@@ -1,110 +1,116 @@
 # Note de clarification
 
-### Liste des objets qui devront être gérés dans la base de données
-*   Compte_adhérent
-*   Adhérent
-*   Compte_personnel
-*   Personnel
-*   Prêt
-*   Ressource
-*   Exemplaire
-*   Contributeur
-*   Auteur
-*   Compositeur
-*   Interprète
-*   Réalisateur
-*   Acteurs
-*   Livre
-*   Film
-*   Oeuvre_musicale
+> On suppose que tous les attributs ne peuvent pas être nuls sauf si indiqués comme tels.
 
+## Liste des objets qui devront être gérés dans la base de données
 
-### Liste des propriétés associées à chaque objet
-##### Compte_adhérent
-- login (key)
-- mot_de_passe
-- nombre_d_emprunt
-- sanction
-- durée_suspension_droit
-- black_liste
-- **Contraintes**
-    - **(login) doit être unique**
-    - **(black_liste) doit être un booléen**
+* Compte_adhérent
+* Adhérent
+* Compte_personnel
+* Personnel
+* Prêt
+* Ressource
+* Exemplaire
+* Contributeur
+* Auteur
+* Compositeur
+* Interprète
+* Réalisateur
+* Acteurs
+* Livre
+* Film
+* Oeuvre_musicale
 
-##### Adhérent
-- nom
-- prénom
-- date_de_naissance
-- adresse
-- e_mail
-- tel
-- **Contraintes**
-    - **(e_mail, tel) doit être unique**
+## Liste des propriétés associées à chaque objet
 
-##### Compte_personnel
-- login (key)
-- mot_de_passe
-- **Contraintes**
-    - **(login) doit être unique**
+### Compte_adhérent
 
-##### Personnel
-- nom
-- prénom
-- adresse
-- e_mail
-- **Contraintes**
-    - **(e_mail) doit être unique**
+* login (key)
+* mot_de_passe
+* nombre_d_emprunt
+* état_compte
+* durée_suspension_droit
+* black_liste
+* **Contraintes**
+  * **état_compte doit être un booléen**, il indique si l'adhésion est actuelle ou passée
+  * **(black_liste) doit être un booléen**
 
-##### Prêt
-- date_prêt
-- durée_prêt
+### Adhérent
 
-##### Ressource
-- code (key)
-- titre
-- liste_contributeur
-- date_apparition
-- éditeur
-- genre
-- code_classification
-- **Contraintes**
-    - **(code) doit être unique**
+* nom
+* prénom
+* date_de_naissance
+* adresse
+* e_mail
+* tel
+* **Contraintes**
+  * **(e_mail, tel) doit être unique**
 
-##### Exemplaire
-- nombre_d_exemplaire
-- état
-- **Contraintes**
-    - **(état) doit être : {neuf, bon, abîmé, perdu}**
+### Compte_personnel
 
-##### Contributeur
-- nom
-- prénom
-- date_de_naissance
-- nationalité
+* login (key)
+* mot_de_passe
 
-##### Auteur
+### Personnel
 
-##### Compositeur
+* nom
+* prénom
+* adresse
+* e_mail
+* **Contraintes**
+  * **(e_mail) doit être unique**
 
-##### Interprète
+### Prêt
 
-##### Réalisateur
+* date_prêt
+* durée_prêt
 
-##### Acteurs
+### Ressource
 
-##### Livre
-- ISBN (key)
-- résumé
-- langue
-- **Contraintes**
-    - **(ISBN) doit être unique**
+* code (key)
+* titre
+* liste_contributeur
+* date_apparition
+* éditeur
+* genre
+* code_classification
 
-##### Film
-- langue
-- longueur
-- synopsis
+### Exemplaire
 
-##### Oeuvre_musicale
-- longueur
+* nombre_d_exemplaire
+* état
+* **Contraintes**
+  * **(état) doit être : {neuf, bon, abîmé, perdu}**
 
-On suppose que tous les attributs ne peuvent pas être nuls sauf si indiqués comme tels.
+### Contributeur
+
+* nom
+* prénom
+* date_de_naissance
+* nationalité
+
+### Auteur
+
+### Compositeur
+
+### Interprète
+
+### Réalisateur
+
+### Acteurs
+
+### Livre
+
+* ISBN (key)
+* résumé
+* langue
+
+### Film
+
+* langue
+* longueur
+* synopsis
+
+### Oeuvre_musicale
+
+* longueur
