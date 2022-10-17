@@ -66,12 +66,14 @@
   * possède Compte_personnel (1..1)
 
 ### Prêt
+
 * date_prêt
 * durée_prêt
 * **Association**
   * classe d'association entre Exemplaire et Compte_adherant
 
 ### Reservation
+
 * date_reservation
 * **Association**
   * classe d'association entre Exemplaire et Compte_adherant
@@ -90,7 +92,6 @@
 * **Association**
   * a plusieurs Exemplaires (Compositon 1--N)
 
-  
 ### Exemplaire
 
 * nombre_d_exemplaire
@@ -106,21 +107,29 @@
 * nationalité
 
 ### Auteur
+
 * **Association**
   * classe d'association entre Livre et Contributeur (N--1..N)
+
 ### Compositeur
+
 * **Association**
   * classe d'association entre Enregistrement_musical et Contributeur (N--1..N)
+
 ### Interprète
+
 * **Association**
   * classe d'association entre Enregistrement_musical et Contributeur (N--1..N)
+
 ### Réalisateur
-* **Association**
-  * classe d'association entre Film et Contributeur (N--1..N)
-### Acteurs
+
 * **Association**
   * classe d'association entre Film et Contributeur (N--1..N)
 
+### Acteurs
+
+* **Association**
+  * classe d'association entre Film et Contributeur (N--1..N)
 
 ### Livre
 
@@ -137,4 +146,3 @@
 ### Oeuvre_musicale
 
 * longueur
-
