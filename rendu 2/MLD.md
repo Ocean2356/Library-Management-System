@@ -11,7 +11,7 @@
 
 
 ##### Compte_adhérents :
-Compte_adhérent(#login : str, mot_de_passe : str, nombre_demprunt : int, sanction : str, durée_supension_droit : int, blackliste : bool, adhérent => Adherent)
+Compte_adhérent(#login : str, mot_de_passe : str, nombre_demprunt : int, date_supension_droit : date, blackliste : bool, adhérent => Adherent)
 \--- durée_supension_droit **optionnel** 
 
 ##### Adhérent :
@@ -27,29 +27,29 @@ Personnel(#id_personnel : int, nom : str, prenom : str, adresse : str, e_mail : 
 Ressource(#code : int, titre : str, liste_contributeur : str, date_apparition : date, éditeur : str, genre : str, code_classification : int) 
 
 ##### Exemplaire :
-Exemplaire(#id_exemplaire : int, nombre_d_exemplaire : int, état : {neuf, bon, abîmé, perdu})
+Exemplaire(#id_exemplaire : int, nombre_d_exemplaire : int, état : {neuf, bon, abîmé, perdu}, ressource => Ressource)
 
 ##### Contributeur :
 Contributeur(#id_Contributeur : int, nom : str, prénom : str, date_de_naissance : date, nationalité : str) 
 
 ##### Livre :
-Livre( #ISBN : int, résumé : str, langue : str) 
+Livre( #ISBN : int, résumé : str, langue : str, ressource => Ressource) 
 
-##### Film
-Film(#id_film : int, langue : str, longueur : int, synopsis : str) 
+##### Film : 
+Film(#id_film : int, langue : str, longueur : int, synopsis : str, ressource => Ressource) 
 
 ##### Oeuvre_musicale :
-Oeuvre_musicale(#id_oeuvre_musicale : int, longueur : int) 
+Oeuvre_musicale(#id_oeuvre_musicale : int, longueur : int, ressource => Ressource) 
 
 ##### Reservation :  
-Reservation(#adhérent => Compte_adhérents, #exemplaire => Exemplaire, #date_reserve : date)  
+Reservation(#adhérent => Compte_adhérents, #ressource => Ressource, #date_reserve : date)  
 
 ##### Prêt :
 Prêt(#adhérent => Compte_adhérents, #exemplaire => Exemplaire, #date_prêt : date, durée_prêt : int, date_retour : date, etat_retour : etat)  
 \--- date_retour, etat_retour **optionnel**  
 
 ##### Sanction : 
-Sanction(#pret => Prêt, suspension : int, remboursement : monnaie)
+Sanction(#pret => Prêt, duree_suspension : int, remboursement : monnaie)
 
 ##### Auteur :
 Auteur(#livre => Livre, #id_Contributeur => Contributeur)
