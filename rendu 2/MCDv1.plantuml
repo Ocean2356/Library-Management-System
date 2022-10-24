@@ -1,0 +1,157 @@
+@startuml MCD Biblio
+!theme sketchy-outline
+skinparam Shadowing true
+annotation ANNOTATION #aliceblue;line:blue;line.dotted;text:blue 
+{
+    le compte_personnel 
+    a accès à tous modifier
+}
+etat -[hidden]- ANNOTATION
+
+class ressource
+class exemplaire
+enum etat 
+
+class compte_personnel
+class personnel 
+class compte_adherant
+class adherant
+
+class pret 
+class reservation
+
+together {
+class livre
+class film
+class enregistrement_musical
+}
+class auteur
+class realisateur
+class acteur
+class compositeur
+class interprete
+
+skinparam groupInheritance 2
+ressource <|-- livre
+ressource <|-- film
+ressource <|-- enregistrement_musical
+
+skinparam activity {
+    ArrowFontSize 10
+}
+livre "*" -- "1..*" contributeur
+' : < ecrit
+(livre, contributeur) . auteur
+enregistrement_musical "*" - "1..*" contributeur
+' : < compose 
+(enregistrement_musical, contributeur) . compositeur
+enregistrement_musical "*" - "1..*" contributeur
+' : < interprete 
+(enregistrement_musical, contributeur) . interprete
+film "*" - "1..*" contributeur
+' : < realise 
+(film, contributeur) . realisateur
+film "*" - "1..*" contributeur
+' : < acte 
+(film, contributeur) . acteur
+
+ressource *-- "*" exemplaire
+
+compte_personnel "1" - "1" personnel
+'compte_personnel "*" -- "*" ressource
+compte_adherant "1" - "1" adherant
+compte_adherant "*" -- "*" exemplaire
+(compte_adherant, exemplaire) . reservation
+compte_adherant "*" -- "*" exemplaire
+(compte_adherant, exemplaire) . pret
+
+enum etat{
+    neuf 
+    bon
+    abime 
+    perdu
+}
+
+class ressource{
+    'Numeric manque paramètre
+    code : numeric {key}
+    titre : text
+    dateApparition : date 
+    editeur : text
+    genre : text
+    codeClassification : numeric
+}
+
+class contributeur{
+    nom : text
+    prenom : text
+    dateNaissance : date
+    nationalite : text
+}
+
+class livre{
+    ISBN : numeric {key}
+    resume : text
+    langue : text
+}
+
+class film{
+    longeur : integer
+    langue : text
+}
+
+class enregistrement_musical{
+    longeur : integer
+}
+
+class exemplaire{
+    idExemplaire : numeric {local key}
+    etat : etat
+}
+
+class personnel{
+    nom : text
+    prenom : text
+    adresse : text
+    email : text
+}
+
+class compte_personnel{
+    login : text {key}
+    motDePasse : text
+}
+
+class adherant{
+    numeroCarte : numeric {key}
+    nom : text
+    prenom : text
+    dateNaissance : date
+    adresse : text
+    email : text
+    telephone : numeric
+}
+
+'Un héritage pour compte_adhérant?
+
+class compte_adherant{
+    login : text {key}
+    motDePasse : text
+    etatCompte : boolean
+    suspenduJusque : date {optional}
+    sommeDu : integer
+    blackliste : boolean
+    actuelle : boolean
+}
+
+class pret{
+    dateEmprunte : date
+    dureeLimitee : integer
+    dateRetourne : date {optional}
+    etatRetourne : etat {optional}
+}
+
+class reservation{
+    dateReserve : date
+}
+
+@enduml
