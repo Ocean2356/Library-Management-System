@@ -65,7 +65,7 @@ personnel  "1" - "1" compte_personnel
 'compte_personnel "*" -- "*" ressource
 compte_adherant "1" - "1" adherant
 compte_adherant "*" -- "*" exemplaire
-(compte_adherant, exemplaire) . reservation
+(compte_adherant, ressource) . reservation
 compte_adherant "*" -- "*" exemplaire
 (compte_adherant, exemplaire) . pret
 
