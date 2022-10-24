@@ -8,10 +8,11 @@ annotation ANNOTATION #aliceblue;line:blue;line.dotted;text:blue
 }
 etat -[hidden]- ANNOTATION
 
-class ressource
+abstract class ressource
 class exemplaire
 enum etat 
 
+abstract class compte
 class compte_personnel
 class personnel 
 class compte_adherant
@@ -36,6 +37,9 @@ ressource <|-- livre
 ressource <|-- film
 ressource <|-- enregistrement_musical
 
+compte <|-- compte_adherant
+compte <|-- compte_personnel
+
 skinparam activity {
     ArrowFontSize 10
 }
@@ -57,7 +61,7 @@ film "*" - "1..*" contributeur
 
 ressource *-- "*" exemplaire
 
-compte_personnel "1" - "1" personnel
+personnel  "1" - "1" compte_personnel
 'compte_personnel "*" -- "*" ressource
 compte_adherant "1" - "1" adherant
 compte_adherant "*" -- "*" exemplaire
@@ -72,7 +76,7 @@ enum etat{
     perdu
 }
 
-class ressource{
+abstract class ressource{
     'Numeric manque paramètre
     code : numeric {key}
     titre : text
@@ -117,8 +121,7 @@ class personnel{
 }
 
 class compte_personnel{
-    login : text {key}
-    motDePasse : text
+
 }
 
 class adherant{
@@ -134,14 +137,20 @@ class adherant{
 'Un héritage pour compte_adhérant?
 
 class compte_adherant{
-    login : text {key}
-    motDePasse : text
     etatCompte : boolean
     suspenduJusque : date {optional}
     sommeDu : integer
     blackliste : boolean
     actuelle : boolean
 }
+
+abstract class compte {
+    login : text {key}
+    motDePasse : text
+
+}
+
+
 
 class pret{
     dateEmprunte : date
