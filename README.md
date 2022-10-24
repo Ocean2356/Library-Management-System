@@ -6,6 +6,17 @@ Abdallah Tafraoui, Haiyang Ma, Jingfang Yuan, Lilian Valin
 
 ## Sujet : Biblio
 
+## Commande pratique
+
+```
+git clone
+git branch
+git status
+git add
+git commit -m "your description"
+git push origin main
+```
+
 ### Système de gestion d'une bibliothèque
 
 > Vous êtes chargés de concevoir un système de gestion pour une bibliothèque municipale qui souhaite informatiser ses activités : catalogage, consultations, gestion des utilisateurs, prêts, etc.
