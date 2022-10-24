@@ -6,6 +6,9 @@ Abdallah Tafraoui, Haiyang Ma, Jingfang Yuan, Lilian Valin
 
 ## Sujet : Biblio
 
+## Lien vers CodiMD
+https://codimd.math.cnrs.fr/9aHM8r5eTZibavvSQIQPPQ?view
+
 ## Commande pratique
 
 ```
