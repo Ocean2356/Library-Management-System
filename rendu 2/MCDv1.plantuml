@@ -1,4 +1,4 @@
-@startuml MCD Biblio
+@startuml MCD_Biblio
 !theme sketchy-outline
 skinparam activity {
     ArrowFontSize 10
