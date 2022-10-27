@@ -1,12 +1,16 @@
 @startuml MCD Biblio
 !theme sketchy-outline
+skinparam activity {
+    ArrowFontSize 10
+}
+skinparam groupInheritance 2
 skinparam Shadowing true
 annotation ANNOTATION #aliceblue;line:blue;line.dotted;text:blue 
 {
     le compte_personnel 
     a accès à tous modifier
 }
-etat -[hidden]- ANNOTATION
+' etat -[hidden]u- ANNOTATION
 
 abstract class ressource
 class exemplaire
@@ -32,42 +36,39 @@ class acteur
 class compositeur
 class interprete
 
-skinparam groupInheritance 2
+compte <|-- compte_adherant
+'compte_adherant -|> compte
+'compte <|- compte_personnel
+compte_personnel -|> compte
+
+personnel "1" - "1" compte_personnel
+'compte_personnel "*" -- "*" ressource
+'compte_adherant "1" - "1" adherant
+adherant "1" - "1" compte_adherant
+compte_adherant "*" -- "*" exemplaire
+' exemplaire "*" -- "*" compte_adherant
+(compte_adherant, exemplaire) . pret
+compte_adherant "*" -- "*" ressource
+(compte_adherant, ressource) .. reservation
+
+etat -[hidden]-exemplaire
+' ressource *-- "*" exemplaire
+exemplaire "*" -* ressource
+
 ressource <|-- livre
 ressource <|-- film
 ressource <|-- enregistrement_musical
 
-compte <|-- compte_adherant
-compte <|-- compte_personnel
-
-skinparam activity {
-    ArrowFontSize 10
-}
 livre "*" -- "1..*" contributeur
-' : < ecrit
 (livre, contributeur) . auteur
 enregistrement_musical "*" - "1..*" contributeur
-' : < compose 
 (enregistrement_musical, contributeur) . compositeur
 enregistrement_musical "*" - "1..*" contributeur
-' : < interprete 
 (enregistrement_musical, contributeur) . interprete
 film "*" - "1..*" contributeur
-' : < realise 
 (film, contributeur) . realisateur
 film "*" - "1..*" contributeur
-' : < acte 
 (film, contributeur) . acteur
-
-ressource *-- "*" exemplaire
-
-personnel  "1" - "1" compte_personnel
-'compte_personnel "*" -- "*" ressource
-compte_adherant "1" - "1" adherant
-compte_adherant "*" -- "*" exemplaire
-(compte_adherant, ressource) . reservation
-compte_adherant "*" -- "*" exemplaire
-(compte_adherant, exemplaire) . pret
 
 enum etat{
     neuf 
@@ -77,7 +78,6 @@ enum etat{
 }
 
 abstract class ressource{
-    'Numeric manque paramètre
     code : numeric {key}
     titre : text
     dateApparition : date 
@@ -120,9 +120,7 @@ class personnel{
     email : text
 }
 
-class compte_personnel{
-
-}
+class compte_personnel{}
 
 class adherant{
     numeroCarte : numeric {key}
@@ -132,16 +130,15 @@ class adherant{
     adresse : text
     email : text
     telephone : numeric
+    actuelle : boolean
 }
 
-'Un héritage pour compte_adhérant?
-
 class compte_adherant{
-    etatCompte : boolean
+    ' etatCompte : boolean
     suspenduJusque : date {optional}
     sommeDu : integer
     blackliste : boolean
-    actuelle : boolean
+    ' actuelle : boolean
 }
 
 abstract class compte {
@@ -149,8 +146,6 @@ abstract class compte {
     motDePasse : text
 
 }
-
-
 
 class pret{
     dateEmprunte : date {local key}
