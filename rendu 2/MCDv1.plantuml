@@ -23,6 +23,7 @@ class compte_adherant
 class adherant
 
 class pret 
+class sanction
 class reservation
 
 together {
@@ -46,14 +47,17 @@ personnel "1" - "1" compte_personnel
 'compte_adherant "1" - "1" adherant
 adherant "1" - "1" compte_adherant
 compte_adherant "*" -- "*" exemplaire
-' exemplaire "*" -- "*" compte_adherant
-(compte_adherant, exemplaire) . pret
+' exemplaire "*" - "*" compte_adherant
+' (compte_adherant, exemplaire) . pret
+(exemplaire, compte_adherant) . pret
 compte_adherant "*" -- "*" ressource
 (compte_adherant, ressource) .. reservation
 
-etat -[hidden]-exemplaire
+etat -[hidden]r-exemplaire
 ' ressource *-- "*" exemplaire
 exemplaire "*" -* ressource
+
+sanction "0..1"-* pret
 
 ressource <|-- livre
 ressource <|-- film
@@ -102,6 +106,7 @@ class livre{
 class film{
     longeur : integer
     langue : text
+    synosis : text
 }
 
 class enregistrement_musical{
@@ -152,6 +157,11 @@ class pret{
     dureeLimitee : integer
     dateRetourne : date {optional}
     etatRetourne : etat {optional}
+}
+
+class sanction{
+    duree_suspension : int 
+    remboursement : monnaie
 }
 
 class reservation{
