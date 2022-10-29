@@ -7,11 +7,12 @@ Abdallah Tafraoui, Haiyang Ma, Jingfang Yuan, Lilian Valin
 ## Sujet : Biblio
 
 ## Lien vers CodiMD
-https://codimd.math.cnrs.fr/9aHM8r5eTZibavvSQIQPPQ?view
+
+<https://codimd.math.cnrs.fr/9aHM8r5eTZibavvSQIQPPQ?view>
 
 ## Commande pratique
 
-```
+```bash
 git clone
 git branch
 git status
@@ -30,7 +31,10 @@ git push origin main
 >
 > Les adhérents de la bibliothèque disposent, eux aussi, d'un compte utilisateur (login et mot de passe) ainsi que d'une carte d'adhérent qui leur permettent d'emprunter des documents. Un adhérent est caractérisé par son nom, prénom, date de naissance, adresse, adresse e-mail et numéro de téléphone. La bibliothèque souhaite garder trace de toutes les adhésions, actuelles et passées.
 >
-> Pour pouvoir emprunter un document, un adhérent à besoin de s'authentifier. Chaque prêt est caractérisé par une date de prêt et une durée de prêt. Un document ne peut être emprunté que s'il est disponible et en bon état. Un adhèrent ne peut emprunter simultanément qu'un nombre limité d'œuvres, chacune pour une durée limitée. Un adhérent sera sanctionné pour les retards dans le retour d'un ouvrage, ainsi que s'il dégrade l'état de celui-ci. Tout retard dans la restitution des documents empruntés entraîne une suspension du droit de prêt d'une durée égale au nombre de jours de retard. En cas de perte ou détérioration grave d'un document, la suspension du droit de prêt est maintenue jusqu'à ce que l'adhérent rembourse le document. Enfin, la bibliothèque peut choisir de blacklister un adhérent en cas de sanctions répétées.
+> Pour pouvoir emprunter un document, un adhérent à besoin de s'authentifier. Chaque prêt est caractérisé par une date de prêt et une durée de prêt. Un document ne peut être emprunté que s'il est disponible et en bon état. Un adhèrent ne peut emprunter simultanément qu'un nombre limité d'œuvres, chacune pour une durée limitée. Un adhérent sera sanctionné pour les retards dans le retour d'un ouvrage, ainsi que s'il dégrade l'état de celui-ci. **Tout retard dans la restitution des documents empruntés entraîne une suspension du droit de prêt d'une durée égale au nombre de jours de retard.** En cas de perte ou détérioration grave d'un document, la suspension du droit de prêt est maintenue jusqu'à ce que l'adhérent rembourse le document. Enfin, la bibliothèque peut choisir de blacklister un adhérent en cas de sanctions répétées.
+
+* On suppose que les pouvoirs de compte de personnel et celui d'adhérent sont séparés, donc un personnel doit utiliser un compte d'adhérent pour emprunter et réserver.
+* On précise que si un adhérent a des documents non restitués et le date de retour prédéfinie est déjà passé, alors il ne peut pas emprunter des documents nouveaux. De plus la suspension du droit de prêt est effectuée séparément, qui commence le jour où le document correspondant est restitué.
 
 ### Besoins
 
