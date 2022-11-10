@@ -34,7 +34,7 @@
 **Contributeur**(#id_Contributeur : int, nom : str, prénom : str, date_de_naissance : date, nationalité : str) 
 
 #### Livre :
-**Livre**(#ISBN : int, résumé : str, langue : str, ressource => **Ressource*) 
+**Livre**(#ISBN : int, résumé : str, langue : str, ressource => **Ressource**) 
 
 #### Film : 
 **Film**(#id_film : int, langue : str, longueur : int, synopsis : str, ressource => **Ressource**) 
@@ -96,4 +96,4 @@ Etat : {neuf, bon, abîmé, perdu}
 
 ## Choix héritages
 
-On utilise un hériatge exclusif pour l'esnemble des relations.
+On utilise un hériatge exclusif pour l'ensemble des relations.
