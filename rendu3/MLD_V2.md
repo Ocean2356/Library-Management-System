@@ -97,7 +97,7 @@ Etat : {neuf, bon, abîmé, perdu}
     - date_retour est optionnel
     - etat_retour est optionnel
 
-- Pour la relation Sanction
+- Pour la relation **Sanction**
     - date_sanction = duree_sanction + **Prêt**.date_retour
 
 - Pour la relation **Exemplaire**
