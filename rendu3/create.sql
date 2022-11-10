@@ -78,7 +78,7 @@ CREATE TABLE pret(
     exemplaire INTEGER REFERENCES exemplaire(id_exemplaire),
     date_pret DATE CHECK(date_pret<=current_date),
     duree_pret INTEGER NOT NULL,
-    date_retour DATE CHECK(date_retour>=current_date),
+    date_retour DATE CHECK(date_retour>=date_pret),
     etat_retour VARCHAR CHECK(etat_retour IN ('neuf', 'bon', 'abime', 'perdu')),
     PRIMARY KEY (adherant, exemplaire, date_pret)  
 );
@@ -86,7 +86,7 @@ CREATE TABLE pret(
 CREATE TABLE sanction(
     adherant VARCHAR,
     exemplaire INTEGER,
-    date_pret DATE CHECK(date_pret<=current_date),
+    date_pret DATE,
     duree_sanction INTEGER NOT NULL,
     remboursement MONEY NOT NULL CHECK(remboursement::money::numeric::float8 >=0),
     remboursement_du BOOLEAN NOT NULL,
@@ -95,9 +95,9 @@ CREATE TABLE sanction(
 );
 
 CREATE TABLE livre(
-    isbn INTEGER PRIMARY KEY,
-    resumé VARCHAR NOT NULL,
+    isbn NUMERIC(13) PRIMARY KEY,
     langue VARCHAR NOT NULL,
+    resumé VARCHAR NOT NULL,
     ressource INTEGER NOT NULL REFERENCES ressource(code)
 );
 
@@ -108,12 +108,6 @@ CREATE TABLE film(
     synopsis VARCHAR NOT NULL,
     ressource INTEGER NOT NULL REFERENCES ressource(code)
 );
-
-
-
-
-
-
 
 CREATE TABLE oeuvre_musicale(
     id_oeuvre_musicale INTEGER PRIMARY KEY,
@@ -130,7 +124,7 @@ CREATE TABLE contributeur(
 );
 
 CREATE TABLE auteur(
-    livre INTEGER NOT NULL REFERENCES livre(isbn),
+    livre NUMERIC(13) NOT NULL REFERENCES livre(isbn),
     id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
     PRIMARY KEY(livre, id_contributeur)
 );
@@ -158,4 +152,3 @@ CREATE TABLE acteur( -- without 's'
     id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
     PRIMARY KEY(film,id_contributeur)
 )
-
