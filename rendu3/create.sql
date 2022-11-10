@@ -158,3 +158,4 @@ CREATE TABLE acteur( -- without 's'
     id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
     PRIMARY KEY(film,id_contributeur)
 )
+
