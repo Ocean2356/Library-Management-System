@@ -13,7 +13,7 @@
 ## Liste des relation
 
 #### Compte_adhérents :
-**Compte_adhérent**(#login : str, mot_de_passe : str, blackliste : bool, adhérent => **Adherent**) \br
+**Compte_adhérent**(#login : str, mot_de_passe : str, blackliste : bool, adhérent => **Adherent**)  
 **vCompte_adhérent**(#login : str, mot_de_passe : str, suspendu : bool, date_suspension_droit : date, blackliste : bool, sommeDu : int, adhérent => **Adherent**) 
 
 
@@ -39,7 +39,7 @@
 **Prêt**(#adhérent => **Compte_adhérents**, #exemplaire => **Exemplaire**, #date_prêt : date, durée_prêt : int, date_retour : date, etat_retour : etat)
 
 #### Sanction :
-**Sanction**(#adhérent => **Prêt**.adhérent, #exemplaire => **Prêt**.exemplaire, #date_prêt => **Prêt**.date_prêt, duree_sanction : int, remboursement : monnaie, remboursementDu : bool) \br
+**Sanction**(#adhérent => **Prêt**.adhérent, #exemplaire => **Prêt**.exemplaire, #date_prêt => **Prêt**.date_prêt, duree_sanction : int, remboursement : monnaie, remboursementDu : bool)  
 **vSanction**(#adhérent => **Prêt**.adhérent, #exemplaire => **Prêt**.exemplaire, #date_prêt => **Prêt**.date_prêt, date_sanction : date, remboursement : monnaie, remboursementDu : bool) 
 
 #### Livre :
