@@ -45,7 +45,7 @@ compte_personnel -|> compte
 personnel "1" - "1" compte_personnel
 'compte_personnel "*" -- "*" ressource
 'compte_adherant "1" - "1" adherant
-adherant "1" - "1" compte_adherant
+adherant "1" - "0..1" compte_adherant
 compte_adherant "*" -- "*" exemplaire
 ' exemplaire "*" - "*" compte_adherant
 ' (compte_adherant, exemplaire) . pret

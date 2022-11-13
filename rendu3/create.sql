@@ -87,7 +87,7 @@ CREATE TABLE sanction(
     adherant VARCHAR,
     exemplaire INTEGER,
     date_pret DATE,
-    duree_sanction INTEGER NOT NULL,
+    duree_sanction INTEGER NOT NULL CHECK(duree_sanction >= 0),
     remboursement MONEY NOT NULL CHECK(remboursement::money::numeric::float8 >=0),
     remboursement_du BOOLEAN NOT NULL,
     PRIMARY KEY (adherant, exemplaire, date_pret),
