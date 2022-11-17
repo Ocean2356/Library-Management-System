@@ -14,8 +14,8 @@ def adherant(cur, login):
     #partie menu adherant
     user_choix1 = -1
     while user_choix1!="0": #partie adhérant pour l'instant
-        print("1 Rechercher un document")
-        print("2 Visualiser vos emprunts")
+        print("1 Rechercher un document") #haiyang
+        print("2 Visualiser vos emprunts") #haiyang
         print("0 Deconnexion")
         user_choix1 = input("Selectionner un choix")
         if user_choix1!="0":
