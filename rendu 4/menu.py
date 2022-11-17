@@ -7,8 +7,8 @@ def connexion():
     PASSWORD = "l0ixTFxR"
     DATABASE = "dbnf18a061"
     conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
-    cur = conn.cursor()
-    return cur
+    return conn
+
 
 
 def adherant(cur, login):
@@ -55,12 +55,11 @@ def admin(cur, login):
 
 
 
-
 user_choix = -1
 
 while user_choix!="0": #partie adhérant pour l'instant
     #user_choix1 = -1
-    cur = connexion()
+    cur = connexion().cursor()
     print("1 connexion")
     print("0 Quitter")
     user_choix = input("Saisir votre choix")
@@ -86,5 +85,5 @@ while user_choix!="0": #partie adhérant pour l'instant
                 print("Saisie non valide")
     elif user_choix=="0":
         exit()
-
+conn.commit()
 conn.close()
