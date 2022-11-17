@@ -1,4 +1,5 @@
 import psycopg2
+import jingfang
 
 def connexion():
     HOST = "tuxa.sme.utc"
@@ -65,8 +66,10 @@ while user_choix!="0": #partie adhérant pour l'instant
     user_choix = input("Saisir votre choix")
     #Partie log in
     if user_choix=="1":
-        login = input("Saisir votre login")
-        mot_de_passe = input("Saisir votre mot de passe")
+        """ login = input("Saisir votre login")
+        mot_de_passe = input("Saisir votre mot de passe") """
+        login = "tutu.yuan"
+        mot_de_passe = "iop"
         sql  = "select login, mot_de_passe from compte_adherent where login='%s' and mot_de_passe='%s';" % (login, mot_de_passe)
         cur.execute(sql)
         raw = cur.fetchone()
