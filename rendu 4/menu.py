@@ -65,10 +65,10 @@ while user_choix!="0": #partie adhérant pour l'instant
     user_choix = input("Saisir votre choix")
     #Partie log in
     if user_choix=="1":
-        """ login = input("Saisir votre login")
-        mot_de_passe = input("Saisir votre mot de passe") """
-        login = "tutu.yuan"
-        mot_de_passe = "iop"
+        login = input("Saisir votre login")
+        mot_de_passe = input("Saisir votre mot de passe")
+        """ login = "tutu.yuan"
+        mot_de_passe = "iop" """
         sql  = "select login, mot_de_passe from compte_adherent where login='%s' and mot_de_passe='%s';" % (login, mot_de_passe)
         cur.execute(sql)
         raw = cur.fetchone()
@@ -83,7 +83,7 @@ while user_choix!="0": #partie adhérant pour l'instant
                 admin(cur, login)
             else :
                 print("Saisie non valide")
-    elif user_choix=="0":
-        exit()
-conn.commit()
+        conn.commit()
+
 conn.close()
+
