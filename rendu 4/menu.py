@@ -31,10 +31,10 @@ def admin(cur, login):
     #partie menu admin
     user_choix1 = -1
     while user_choix1!="0": #partie adhérant pour l'instant
-        print("1 Gerer les ressources")
-        print("2 Gestion des prêts")
-        print("3 Gestion des utilisateurs")
-        print("4 Analyser les données")
+        print("1 Gerer les ressources") #Jingfang
+        print("2 Gestion des prêts") #Lilian
+        print("3 Gestion des utilisateurs") #Abdallah
+        print("4 Analyser les données") #Lilian
         print("0 Deconnexion")
         user_choix1 = input("Selectionner un choix")
         if user_choix1!="0":
