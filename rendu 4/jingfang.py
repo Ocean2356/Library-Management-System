@@ -9,10 +9,11 @@ def ajouter_document(cur, login):
         existants.append(ligne[0])
     print(existants)
     Ncode = int(input("Veuillez saisir le code du document\n"))
-    while Ncode in existants and Ncode != "exit":
-        Ncode = int(input("L'code saisi existe déjà! Veuillez ressaisir. Si vous voulez quitter, entrez exit\n"))
+    while Ncode != "exit" and int(Ncode) in existants:
+        Ncode = input("L'code saisi existe déjà! Veuillez ressaisir. Si vous voulez quitter, entrez exit\n")
     
     if Ncode != "exit":
+        Ncode = int(Ncode)
         #Informations générales
         #Titre
         Ntitre = input("Veuillez saisir le titre de la ressource\n") 
