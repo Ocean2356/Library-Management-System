@@ -24,7 +24,7 @@ def ajouter_document(cur, login):
             print("La date saisie impossible! Veuillez ressaisir.\n")
             Nyear = int(input("Veuillez saisir l'année d'apprarition de la ressource\n"))
             Nmonth = int(input("Veuillez saisir le mois d'apprarition de la ressource\n"))
-            Nday = int(input("Veuillez saisir l'année d'apprarition de la ressource\n"))
+            Nday = int(input("Veuillez saisir la date d'apprarition de la ressource\n"))
         #Code de classification
         sql = "select code_classification from ressource;"
         cur.execute(sql)
