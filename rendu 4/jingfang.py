@@ -6,7 +6,7 @@ def ajouter_document(cur, login):
     raw = cur.fetchall()
     existants = []
     for ligne in raw:
-        existants.append(ligne)
+        existants.append(ligne[0])
     print(existants)
     Ncode = int(input("Veuillez saisir le code du document\n"))
     while Ncode in existants and Ncode != "exit":
@@ -31,7 +31,7 @@ def ajouter_document(cur, login):
         raw = cur.fetchall()
         existants = []
         for ligne in raw:
-            existants.append(ligne)
+            existants.append(ligne[0])
         print(existants)
         Ncode_classification = int(input("Veuillez saisir le code de classification du document\n"))
         while Ncode_classification in existants:

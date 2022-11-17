@@ -1,5 +1,5 @@
 import psycopg2
-import jingfang
+from jingfang import gerer_ressources, ajouter_document
 
 def connexion():
     HOST = "tuxa.sme.utc"
