@@ -6,7 +6,7 @@ def connexion():
     HOST = "tuxa.sme.utc"
     USER = "nf18a074"
     PASSWORD = "ulk6EDbE"
-    DATABASE = "dbnf18a061"
+    DATABASE = "dbnf18a074"
     conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
     return conn
 
