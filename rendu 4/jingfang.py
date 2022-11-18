@@ -41,7 +41,7 @@ def ajouter_document(cur, login):
         Nediteur = input("Veuillez saisir l'éditeur de la ressource\n")
         Ngenre = input("Veuillez saisir le genre de la ressource\n")
 
-        sql = "insert into ressource values ('%s', '%s', '%s', '%s', '%s', '%s');" % (Ncode, Ntitre, date(Nyear, Nmonth, Nday), Nediteur, Ngenre, Ncode_classification)
+        sql = "insert into ressource values ('%d', '%s', '%s', '%s', '%s', '%d');" % (Ncode, Ntitre, date(Nyear, Nmonth, Nday), Nediteur, Ngenre, Ncode_classification)
         cur.execute(sql)
         
 
