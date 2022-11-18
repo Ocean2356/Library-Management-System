@@ -42,7 +42,7 @@ CREATE TABLE compte_adherent(
     login VARCHAR PRIMARY KEY,
     mot_de_passe VARCHAR NOT NULL,
     blackliste BOOLEAN NOT NULL,
-    adherant INTEGER NOT NULL REFERENCES adherent(numero_carte) --Need to check
+    adherent INTEGER NOT NULL REFERENCES adherent(numero_carte) --Need to check
 );
 
 CREATE TABLE compte_personnel(
@@ -67,31 +67,31 @@ CREATE TABLE exemplaire(
 );
 
 CREATE TABLE reservation(
-    adherant VARCHAR REFERENCES compte_adherent(login),
+    adherent VARCHAR REFERENCES compte_adherent(login),
     ressource INTEGER REFERENCES ressource(code),
     date_reserve DATE,
-    PRIMARY KEY (adherant, ressource, date_reserve)  
+    PRIMARY KEY (adherent, ressource, date_reserve)  
 );
 
 CREATE TABLE pret(
-    adherant VARCHAR REFERENCES compte_adherent(login),
+    adherent VARCHAR REFERENCES compte_adherent(login),
     exemplaire INTEGER REFERENCES exemplaire(id_exemplaire),
     date_pret DATE CHECK(date_pret<=current_date),
     duree_pret INTEGER NOT NULL,
     date_retour DATE CHECK(date_retour>=date_pret),
     etat_retour VARCHAR CHECK(etat_retour IN ('neuf', 'bon', 'abime', 'perdu')),
-    PRIMARY KEY (adherant, exemplaire, date_pret)  
+    PRIMARY KEY (adherent, exemplaire, date_pret)  
 );
 
 CREATE TABLE sanction(
-    adherant VARCHAR,
+    adherent VARCHAR,
     exemplaire INTEGER,
     date_pret DATE,
     duree_sanction INTEGER NOT NULL CHECK(duree_sanction >= 0),
     remboursement MONEY NOT NULL CHECK(remboursement::money::numeric::float8 >=0),
     remboursement_du BOOLEAN NOT NULL,
-    PRIMARY KEY (adherant, exemplaire, date_pret),
-    FOREIGN KEY (adherant, exemplaire, date_pret) REFERENCES pret(adherant, exemplaire, date_pret)
+    PRIMARY KEY (adherent, exemplaire, date_pret),
+    FOREIGN KEY (adherent, exemplaire, date_pret) REFERENCES pret(adherent, exemplaire, date_pret)
 );
 
 CREATE TABLE livre(
