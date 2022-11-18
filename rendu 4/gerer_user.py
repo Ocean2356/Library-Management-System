@@ -26,7 +26,7 @@ def gerer_user(cur, login):
             exit()
 
     elif choix1 == "3":
-        sql = "select sommeDu from sanction;"
+        sql = "select sommeDu from compte_adherant;"
         cur.execute(sql)
         montant = cur.fetchall()
         print("La somme due est de ", montant)
