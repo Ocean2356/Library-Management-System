@@ -1,5 +1,6 @@
 import psycopg2
 from jingfang import gerer_ressources, ajouter_document
+from haiyang import recherche, visualiser
 
 def connexion():
     HOST = "tuxa.sme.utc"
@@ -59,7 +60,8 @@ user_choix = -1
 
 while user_choix!="0": #partie adhérant pour l'instant
     #user_choix1 = -1
-    cur = connexion().cursor()
+    conn = connexion()
+    cur = conn().cursor()
     print("1 connexion")
     print("0 Quitter")
     user_choix = input("Saisir votre choix")
