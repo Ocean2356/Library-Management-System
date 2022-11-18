@@ -29,12 +29,12 @@ INSERT INTO exemplaire VALUES (12409601, 'perdu', 124096);
 
 INSERT INTO reservation VALUES('haiyang.ma', 101024, '2020-01-23');
 
-INSERT INTO pret VALUES ('jingfang.yuan', 10102402, '2020-07-31', 35, '2020-08-21', 'bon');
-INSERT INTO pret VALUES ('lilian.valin', 11204801, '2020-09-01', 21, '2020-09-22', 'abime');
-INSERT INTO pret VALUES ('abdallah.tafraoui', 12409601, '2021-01-21', 21, '2021-06-22', 'perdu');
+INSERT INTO pret VALUES ('jingfang.yuan', 10102402, 101024, '2020-07-31', 35, '2020-08-21', 'bon');
+INSERT INTO pret VALUES ('lilian.valin', 11204801, 112048, '2020-09-01', 21, '2020-09-22', 'abime');
+INSERT INTO pret VALUES ('abdallah.tafraoui', 12409601, 124096, '2021-01-21', 21, '2021-06-22', 'perdu');
 
-INSERT INTO sanction VALUES ('lilian.valin', 11204801, '2020-09-01', 0, 10.00, 'false');
-INSERT INTO sanction VALUES ('abdallah.tafraoui', 12409601, '2021-01-21', 152, 5.00, 'true');
+INSERT INTO sanction VALUES ('lilian.valin', 11204801, 112048, '2020-09-01', 0, 10.00, 'false');
+INSERT INTO sanction VALUES ('abdallah.tafraoui', 12409601, 124096, '2021-01-21', 152, 5.00, 'true');
 
 INSERT INTO livre VALUES(9876543210123, 'This is a really good book. Really poetique.', 'en', 101024);
 INSERT INTO film VALUES (12345678, 'fr', '02:13:55', 'That''s a terrific movie.', 112048);

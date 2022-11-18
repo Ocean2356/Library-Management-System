@@ -61,9 +61,10 @@ CREATE TABLE ressource(
 );
 
 CREATE TABLE exemplaire(
-    id_exemplaire INTEGER PRIMARY KEY,
+    id_exemplaire INTEGER,
     etat VARCHAR NOT NULL CHECK(etat IN ('neuf', 'bon', 'abime', 'perdu')),
-    ressource INTEGER NOT NULL REFERENCES ressource(code)
+    ressource INTEGER REFERENCES ressource(code),
+    PRIMARY KEY (id_exemplaire, ressource)
 );
 
 CREATE TABLE reservation(
@@ -75,23 +76,26 @@ CREATE TABLE reservation(
 
 CREATE TABLE pret(
     adherent VARCHAR REFERENCES compte_adherent(login),
-    exemplaire INTEGER REFERENCES exemplaire(id_exemplaire),
+    exemplaire INTEGER,
+    code_ressource INTEGER, 
     date_pret DATE CHECK(date_pret<=current_date),
     duree_pret INTEGER NOT NULL,
     date_retour DATE CHECK(date_retour>=date_pret),
     etat_retour VARCHAR CHECK(etat_retour IN ('neuf', 'bon', 'abime', 'perdu')),
-    PRIMARY KEY (adherent, exemplaire, date_pret)  
+    PRIMARY KEY (adherent, exemplaire, code_ressource, date_pret),
+    FOREIGN KEY (exemplaire, code_ressource) REFERENCES exemplaire(id_exemplaire, ressource)  
 );
 
 CREATE TABLE sanction(
     adherent VARCHAR,
     exemplaire INTEGER,
+    code_ressource INTEGER, 
     date_pret DATE,
     duree_sanction INTEGER NOT NULL CHECK(duree_sanction >= 0),
     remboursement MONEY NOT NULL CHECK(remboursement::money::numeric::float8 >=0),
     remboursement_du BOOLEAN NOT NULL,
-    PRIMARY KEY (adherent, exemplaire, date_pret),
-    FOREIGN KEY (adherent, exemplaire, date_pret) REFERENCES pret(adherent, exemplaire, date_pret)
+    PRIMARY KEY (adherent, exemplaire, code_ressource, date_pret),
+    FOREIGN KEY (adherent, exemplaire, code_ressource, date_pret) REFERENCES pret(adherent, exemplaire, code_ressource, date_pret)
 );
 
 CREATE TABLE livre(
