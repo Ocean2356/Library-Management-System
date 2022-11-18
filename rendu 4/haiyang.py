@@ -5,17 +5,17 @@ def recherche(cur):
     e = input("Éditeur : ")
     g = input("Genre : ")
     c = input("Contributeur : ")
-    sql = """SELECT * 
-            FROM ressource
-            WHERE titre LIKE '\%%s\%'
-                AND date_apparition LIKE '\%%s\%'
-                AND editeur LIKE '\%%s\%'
-                AND genre LIKE '\%%s\%'
-            ;""" % (t, d, e, g)
+    sql = """SELECT r.* 
+            FROM ressource r
+            WHERE titre LIKE '%"""+t+"""%'
+                AND editeur LIKE '%"""+e+"""%'
+                AND genre LIKE '%"""+g+"""%'
+            ;"""
     cur.execute(sql)
     raw = cur.fetchall()
     for ligne in raw:
         print(ligne)
+#                AND date_apparition LIKE '%"""+d+"""%'
 
 def visualiser(cur, login):
     sql = """SELECT *
