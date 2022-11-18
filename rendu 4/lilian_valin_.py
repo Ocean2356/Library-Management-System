@@ -21,8 +21,8 @@ def gerer_pret(cur, login):
 
 def Affichage_pret_en_cour(cur):
     user_choix = -1
-    i_pret = 1
-    sql="select * from pret where etat_retour = ''"
+    i_pret = 0
+    sql="select * from pret where etat_retour is null"
     cur.execute(sql)
     raw = cur.fetchall()
     if raw == []:
@@ -50,8 +50,8 @@ def Affichage_pret_en_cour(cur):
 
 def Affichage_pret_fini(cur):
     user_choix =-1
-    i_pret = 1
-    sql="select * from pret where not etat_retour ='' "
+    i_pret = 0
+    sql="select * from pret where etat_retour is not null"
     cur.execute(sql)
     raw = cur.fetchall()
     nombre_pret = len(raw)
@@ -90,5 +90,5 @@ def Nouveau_pret(cur):
     exemplaire = int(input("numéro : "))
     print("Entrée le code la ressource prêté")
     code_ressource = int(input("code ressource : "))
-    sql = "insert into pret values ('%s','%s','%s','%s','%s','%s','%s');"%(login_adh, exemplaire, code_ressource, date(Nyear_pret,Nmonth_pret,Nday_pret), nb_jours, date(2020,1,15),'bon')
+    sql = "insert into pret values ('%s','%s','%s','%s','%s');"%(login_adh, exemplaire, code_ressource, date(Nyear_pret,Nmonth_pret,Nday_pret), nb_jours)
     cur.execute(sql)
