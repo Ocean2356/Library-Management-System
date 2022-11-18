@@ -38,8 +38,6 @@ def Affichage_pret_en_cour(cur):
         print("Le code du document est : ", raw[i_pret][2])
         print("Le début du prêt est en date du : ",raw[i_pret][3])
         print("La durée du pret est de ",raw[i_pret][4],"jours")
-        print('La date de retour est le : ',raw[i_pret][5])
-        print("l'état au retour est ",raw[i_pret][6])
         print("--------------------------------------------------------")
         print("1 Pour passer au prêt suivant")
         print("0 Pour quitter")
