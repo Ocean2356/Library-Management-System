@@ -1,7 +1,7 @@
 import psycopg2
 from jingfang import gerer_ressources, ajouter_document
 from haiyang import recherche, visualiser
-from lilian_valin import gerer_pret, Affichage_pret_en_cour, Affichage_pret_fini, Nouveau_pret, Retour_pret
+from lilian_valin_ import gerer_pret, Affichage_pret_en_cour, Affichage_pret_fini, Nouveau_pret, Retour_pret
 
 def connexion():
     HOST = "tuxa.sme.utc"
