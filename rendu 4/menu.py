@@ -22,7 +22,7 @@ def adherant(cur, login):
         user_choix1 = input("Selectionner un choix")
         if user_choix1!="0":
             if user_choix1=="1":
-                recherche()
+                recherche(cur)
             elif user_choix1=="2":
                 visualiser(cur, login)
             else :
