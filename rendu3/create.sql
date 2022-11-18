@@ -122,7 +122,7 @@ CREATE TABLE oeuvre_musicale(
 CREATE TABLE livre(
     isbn NUMERIC(13) NOT NULL UNIQUE,
     langue VARCHAR NOT NULL,
-    resumé VARCHAR NOT NULL,
+    resumé VARCHAR NOT NULL,--Potentiellement problématique
     ressource INTEGER PRIMARY KEY REFERENCES ressource(code)
 );
 

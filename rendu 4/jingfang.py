@@ -58,17 +58,26 @@ def ajouter_document(cur, login):
             Nlangue = input("Veuillez saisir la langue du film\n")
             Nsynopsis = input("Veuillez saisir le synopsis du film\n")
             sql = "insert into film values ('%s', '%s', '%s', '%s');" % (Nlangue, Nlongeur, Nsynopsis, Ncode)
-            NtypeRessource = "Film"
         elif NtypeRessource==2:
-            NtypeRessource = "Enregistrement musical"
+            #Music
+            Nlongeur = input("Veuillez saisir la longeur de l'enregistrement, format HH:MM:SS\n")
+            sql = "insert into oeuvre_musicale values ('%s', '%s');" % (Nlongeur,Ncode)
+
         elif NtypeRessource==3:
             #Livre
+            sql = "select isbn from livre;"
+            cur.execute(sql)
+            raw = cur.fetchall()
+            existants = []
+            for ligne in raw:
+                existants.append(ligne[0])
             print("Vous avez choisi Livre\n")
-            Nlongeur = input("Veuillez saisir la longeur du film, format HH:MM:SS\n")
+            Nisbn = int(input("Veuillez saisir le code ISBN du livre\n"))
+            while Nisbn in existants:
+                Nisbn = int(input("L'code saisi existe déjà! Veuillez ressaisir. Si vous voulez quitter, entrez exit\n"))
             Nlangue = input("Veuillez saisir la langue du film\n")
-            Nsynopsis = input("Veuillez saisir le synopsis du film\n")
-            NtypeRessource = "Livre"
-            sql = "insert into film values ('%d', '%s', '%s', '%s', '%s', '%d');" % (Ncode, Ntitre, date(Nyear, Nmonth, Nday), Nediteur, Ngenre, Ncode_classification)
+            Nresume = input("Veuillez saisir le resumé du film\n")
+            sql = "insert into film values ('%d', '%s', '%s', '%s');" % (Nisbn, Nlangue, Nresume, Ncode)
         
         cur.execute(sql)
         
