@@ -1,21 +1,21 @@
-DROP TABLE IF EXISTS acteur;
-DROP TABLE IF EXISTS realisateur;
-DROP TABLE IF EXISTS interprete;
-DROP TABLE IF EXISTS compositeur;
-DROP TABLE IF EXISTS auteur;
-DROP TABLE IF EXISTS contributeur;
-DROP TABLE IF EXISTS oeuvre_musicale;
-DROP TABLE IF EXISTS film;
-DROP TABLE IF EXISTS livre;
-DROP TABLE IF EXISTS sanction;
-DROP TABLE IF EXISTS pret;
-DROP TABLE IF EXISTS reservation;
-DROP TABLE IF EXISTS exemplaire;
-DROP TABLE IF EXISTS ressource;
-DROP TABLE IF EXISTS compte_personnel;
-DROP TABLE IF EXISTS compte_adherent;
-DROP TABLE IF EXISTS personnel;
-DROP TABLE IF EXISTS adherent;
+DROP TABLE IF EXISTS acteur CASCADE;
+DROP TABLE IF EXISTS realisateur CASCADE;
+DROP TABLE IF EXISTS interprete CASCADE;
+DROP TABLE IF EXISTS compositeur CASCADE;
+DROP TABLE IF EXISTS auteur CASCADE;
+DROP TABLE IF EXISTS contributeur CASCADE;
+DROP TABLE IF EXISTS oeuvre_musicale CASCADE;
+DROP TABLE IF EXISTS film CASCADE;
+DROP TABLE IF EXISTS livre CASCADE;
+DROP TABLE IF EXISTS sanction CASCADE;
+DROP TABLE IF EXISTS pret CASCADE;
+DROP TABLE IF EXISTS reservation CASCADE;
+DROP TABLE IF EXISTS exemplaire CASCADE;
+DROP TABLE IF EXISTS ressource CASCADE;
+DROP TABLE IF EXISTS compte_personnel CASCADE;
+DROP TABLE IF EXISTS compte_adherent CASCADE;
+DROP TABLE IF EXISTS personnel CASCADE;
+DROP TABLE IF EXISTS adherent CASCADE;
 
 
 
@@ -98,7 +98,7 @@ CREATE TABLE sanction(
     FOREIGN KEY (adherent, exemplaire, code_ressource, date_pret) REFERENCES pret(adherent, exemplaire, code_ressource, date_pret)
 );
 
-CREATE TABLE livre(
+/* CREATE TABLE livre(
     isbn NUMERIC(13) PRIMARY KEY,
     langue VARCHAR NOT NULL,
     resumé VARCHAR NOT NULL,
@@ -117,6 +117,25 @@ CREATE TABLE oeuvre_musicale(
     id_oeuvre_musicale INTEGER PRIMARY KEY,
     longeur TIME NOT NULL,
     ressource INTEGER NOT NULL REFERENCES ressource(code)
+); */
+
+CREATE TABLE livre(
+    isbn NUMERIC(13) NOT NULL UNIQUE,
+    langue VARCHAR NOT NULL,
+    resumé VARCHAR NOT NULL,
+    ressource INTEGER PRIMARY KEY REFERENCES ressource(code)
+);
+
+CREATE TABLE film(
+    langue VARCHAR NOT NULL,
+    longeur TIME NOT NULL, --modify MLD
+    synopsis VARCHAR NOT NULL,
+    ressource INTEGER PRIMARY KEY REFERENCES ressource(code)
+);
+
+CREATE TABLE oeuvre_musicale(
+    longeur TIME NOT NULL,
+    ressource INTEGER PRIMARY KEY REFERENCES ressource(code)
 );
 
 CREATE TABLE contributeur(
@@ -128,31 +147,31 @@ CREATE TABLE contributeur(
 );
 
 CREATE TABLE auteur(
-    livre NUMERIC(13) NOT NULL REFERENCES livre(isbn),
+    livre INTEGER NOT NULL REFERENCES livre(ressource),
     id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
     PRIMARY KEY(livre, id_contributeur)
 );
 
 CREATE TABLE compositeur(
-    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(id_oeuvre_musicale),
+    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(ressource),
     id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
     PRIMARY KEY(musique, id_contributeur)
 );
 
 CREATE TABLE interprete(
-    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(id_oeuvre_musicale),
+    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(ressource),
     id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
     PRIMARY KEY(musique, id_contributeur)
 );
 
 CREATE TABLE realisateur(
-    film INTEGER NOT NULL REFERENCES film(id_film),
+    film INTEGER NOT NULL REFERENCES film(ressource),
     id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
     PRIMARY KEY(film,id_contributeur)
 );
 
 CREATE TABLE acteur( -- without 's'
-    film INTEGER NOT NULL REFERENCES film(id_film),
+    film INTEGER NOT NULL REFERENCES film(ressource),
     id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
     PRIMARY KEY(film,id_contributeur)
 )

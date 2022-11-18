@@ -37,8 +37,8 @@ INSERT INTO sanction VALUES ('lilian.valin', 11204801, 112048, '2020-09-01', 0, 
 INSERT INTO sanction VALUES ('abdallah.tafraoui', 12409601, 124096, '2021-01-21', 152, 5.00, 'true');
 
 INSERT INTO livre VALUES(9876543210123, 'This is a really good book. Really poetique.', 'en', 101024);
-INSERT INTO film VALUES (12345678, 'fr', '02:13:55', 'That''s a terrific movie.', 112048);
-INSERT INTO oeuvre_musicale VALUES (654321, '01:38:24', 124096);
+INSERT INTO film VALUES ('fr', '02:13:55', 'That''s a terrific movie.', 112048);
+INSERT INTO oeuvre_musicale VALUES ('01:38:24', 124096);
 
 INSERT INTO contributeur VALUES (65432101, 'Liu', 'Cixin', '1963-06-23', 'chinoise');
 INSERT INTO contributeur VALUES (65432102, 'Chopin', 'Frédéric', '1810-03-01', 'polonaise');
@@ -46,8 +46,8 @@ INSERT INTO contributeur VALUES (65432103, 'Lang', 'Lang', '1982-06-13', 'chinoi
 INSERT INTO contributeur VALUES (65432104, 'Nolan', 'Christophe', '1970-07-30', 'anglaise');
 INSERT INTO contributeur VALUES (65432105, 'Leonardo', 'DiCaprio', '1974-11-11', 'américaine');
 
-INSERT INTO auteur VALUES(9876543210123, 65432101);
-INSERT INTO compositeur VALUES (654321, 65432102);
-INSERT INTO interprete VALUES (654321, 65432103);
-INSERT INTO realisateur VALUES (12345678, 65432104);
-INSERT INTO acteur VALUES (12345678, 65432105);
+INSERT INTO auteur VALUES(101024, 65432101);
+INSERT INTO compositeur VALUES (124096, 65432102);
+INSERT INTO interprete VALUES (124096, 65432103);
+INSERT INTO realisateur VALUES (112048, 65432104);
+INSERT INTO acteur VALUES (112048, 65432105);
