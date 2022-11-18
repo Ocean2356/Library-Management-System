@@ -45,19 +45,35 @@ def ajouter_document(cur, login):
         cur.execute(sql)
         
 
-        '''
+        
         #Distinction type
-        NtypeRessource = int(input("Veuillez saisir l'indice du type de la ressource\n"))
         print("1 :Film\n2 : Enregistrement musical\n3 : Livre\n")
+        NtypeRessource = int(input("Veuillez saisir l'indice du type de la ressource\n"))
         while NtypeRessource not in [1, 2, 3]:
             NtypeRessource = int(input("Erreur! Veuillez resaisir l'indice du type de la ressource\n"))
         if NtypeRessource==1:
+            #Film
+            print("Vous avez choisi Film\n")
+            Nlongeur = input("Veuillez saisir la longeur du film, format HH:MM:SS\n")
+            Nlangue = input("Veuillez saisir la langue du film\n")
+            Nsynopsis = input("Veuillez saisir le synopsis du film\n")
+            sql = "insert into film values ('%s', '%s', '%s', '%s');" % (Nlangue, Nlongeur, Nsynopsis, Ncode)
             NtypeRessource = "Film"
         elif NtypeRessource==2:
-            NtypeRessource = "Film"
+            NtypeRessource = "Enregistrement musical"
         elif NtypeRessource==3:
+            #Livre
+            print("Vous avez choisi Livre\n")
+            Nlongeur = input("Veuillez saisir la longeur du film, format HH:MM:SS\n")
+            Nlangue = input("Veuillez saisir la langue du film\n")
+            Nsynopsis = input("Veuillez saisir le synopsis du film\n")
             NtypeRessource = "Livre"
-        '''
+            sql = "insert into film values ('%d', '%s', '%s', '%s', '%s', '%d');" % (Ncode, Ntitre, date(Nyear, Nmonth, Nday), Nediteur, Ngenre, Ncode_classification)
+        
+        cur.execute(sql)
+        
+
+        
 
 
 
