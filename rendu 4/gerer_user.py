@@ -5,6 +5,8 @@ print("1 pour sanctionner un adhérant")
 print("2 pour blacklister un adhérant")
 print("3 pour mettre a jour la dette de l'adhérant")
 user_choix1 = input("Selectionnez un choix")
+
+
 if user_choix1==1:
     user_choix2=input("1 pour suspendre temporairement un adhérant")
     if user_choix2==1:
@@ -13,6 +15,8 @@ if user_choix1==1:
       cur.execute(sql)    
     else:
         exit()
+
+
 elif user_choix1==2:
     print("Etes vous sur de vouloir blacklister l'adherant ?")
     user_choix3=input("Selectionnez 1 pour Oui et 0 pour Non")
@@ -21,6 +25,7 @@ elif user_choix1==2:
         cur.execute(sql)
     else:
         exit()
+
 
 elif user_choix1==3:
     sql="select sommeDue from sanction;"
