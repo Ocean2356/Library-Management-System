@@ -4,8 +4,8 @@ from haiyang import recherche, visualiser
 
 def connexion():
     HOST = "tuxa.sme.utc"
-    USER = "nf18a061"
-    PASSWORD = "l0ixTFxR"
+    USER = "nf18a074"
+    PASSWORD = "ulk6EDbE"
     DATABASE = "dbnf18a061"
     conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
     return conn
