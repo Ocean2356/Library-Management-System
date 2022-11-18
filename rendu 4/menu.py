@@ -61,7 +61,7 @@ user_choix = -1
 while user_choix!="0": #partie adhérant pour l'instant
     #user_choix1 = -1
     conn = connexion()
-    cur = connexion().cursor()
+    cur = conn.cursor()
     print("1 connexion")
     print("0 Quitter")
     user_choix = input("Saisir votre choix")
