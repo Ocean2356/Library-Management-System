@@ -19,6 +19,10 @@ git status
 git add
 git commit -m "your description"
 git push origin main
+
+psql postgres://nf18a061:l0ixTFxR@tuxa.sme.utc/dbnf18a061
+psql postgres://nf18a074:ulk6EDbE@tuxa.sme.utc/dbnf18a074
+
 ```
 
 ### Système de gestion d'une bibliothèque
