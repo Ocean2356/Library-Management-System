@@ -1,3 +1,5 @@
+from datetime import date
+
 def gerer_pret(cur, login):
     user_choix = -1
     while user_choix != "0":
@@ -110,7 +112,7 @@ def Nouveau_pret(cur):
     sql = "insert into pret(adherent,exemplaire,code_ressource,date_pret,duree_pret) values ('%s','%s','%s','%s','%s');"%(login_adh, exemplaire, code_ressource, date(Nyear_pret,Nmonth_pret,Nday_pret), nb_jours)
     cur.execute(sql)
 
-def Retour_pret(cur)
+def Retour_pret(cur):
     #login
     print("Entrée le login de l'adherent")
     login_adh = input("login : ")
@@ -145,7 +147,7 @@ def Retour_pret(cur)
     #Etat
     print("Entrée l'état de la ressource (neuf,bon,abîmé,perdu)")
     etat_retour = input("Veuillez saisir l'état : ")
-    while etat_retour != 'neuf' and 'bon' and 'abîmé' and 'perdu':
+    while etat_retour != 'neuf' or 'bon' or 'abîmé' or 'perdu':
         print("La saisie est invalide veuillez ressayer !")
         etat_retour = input("Veuillez saisir l'état : ")
     #SQL
