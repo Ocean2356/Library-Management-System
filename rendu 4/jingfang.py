@@ -1,4 +1,5 @@
 from datetime import date
+import psycopg2
 
 def ajouter_document(cur, login):
     sql = "select code from ressource;"
@@ -18,14 +19,22 @@ def ajouter_document(cur, login):
         #Titre
         Ntitre = input("Veuillez saisir le titre de la ressource\n") 
         #Datetime
-        Nyear = int(input("Veuillez saisir l'année d'apprarition de la ressource\n"))
-        Nmonth = int(input("Veuillez saisir le mois d'apprarition de la ressource\n"))
-        Nday = int(input("Veuillez saisir l'année d'apprarition de la ressource\n"))
-        while date(Nyear, Nmonth, Nday) > date.today():
-            print("La date saisie impossible! Veuillez ressaisir.\n")
-            Nyear = int(input("Veuillez saisir l'année d'apprarition de la ressource\n"))
-            Nmonth = int(input("Veuillez saisir le mois d'apprarition de la ressource\n"))
-            Nday = int(input("Veuillez saisir la date d'apprarition de la ressource\n"))
+        tester = False
+        while not tester: 
+            try:
+                Nyear = int(input("Veuillez saisir l'année d'apprarition de la ressource\n"))
+                Nmonth = int(input("Veuillez saisir le mois d'apprarition de la ressource\n"))
+                Nday = int(input("Veuillez saisir le jour d'apprarition de la ressource\n"))
+            except Exception:
+                print("Problème de saisie, rééssayer")
+            else:
+                try: 
+                    if date(Nyear, Nmonth, Nday) > date.today():
+                        print("La date saisie impossible! Veuillez ressaisir.\n")
+                except Exception:
+                    print("La date saisie impossible! Veuillez ressaisir.\n")
+                else:
+                    tester = True
         #Code de classification
         sql = "select code_classification from ressource;"
         cur.execute(sql)
@@ -47,7 +56,7 @@ def ajouter_document(cur, login):
 
         
         #Distinction type
-        print("1 :Film\n2 : Enregistrement musical\n3 : Livre\n")
+        print("1 : Film\n2 : Enregistrement musical\n3 : Livre\n")
         NtypeRessource = int(input("Veuillez saisir l'indice du type de la ressource\n"))
         while NtypeRessource not in [1, 2, 3]:
             NtypeRessource = int(input("Erreur! Veuillez resaisir l'indice du type de la ressource\n"))
@@ -80,20 +89,104 @@ def ajouter_document(cur, login):
             sql = "insert into film values ('%d', '%s', '%s', '%s');" % (Nisbn, Nlangue, Nresume, Ncode)
         
         cur.execute(sql)
-        
+
+        #Partie Contributeurs
+        NbContrib = int(input("Il existe combien de comtributeurs ?\n"))
+        for i in range(1, NbContrib):
+            print("%d contributeur\n"%i)
+            contributeur(NtypeRessource, cur)
+
+
+def contributeur(NtypeRessource, cur):
+    #Informations générales
+    #Partir ID Contrib
+    sql = "select id_contributeur, nom, prenom from contributeur;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    existants = []
+    print("Liste Contributeur dans le système\n")
+    if not raw:
+        print("Liste vide\n")
+    else:
+        for ligne in raw:
+            print("\t%s \t%s \t%s\n"%(ligne[0], ligne[1], ligne[2]))
+            existants.append(ligne[0])
+    Nid_contributeur = int(input("Veuillez saisir le ID contributeur\n"))#A améliorer
+    if Nid_contributeur not in existants:
+        #Nouveau contributeur
+        #Partie nom prénom
+        Nnom = input("Veuillez saisir le nom du contributeur\n")
+        Nprenom = input("Veuillez saisir le prénom du contributeur\n")
+            
+        #Partie date de naissance
+        #Datetime
+        tester = False
+        while not tester: 
+            try:
+                Nyear = int(input("Veuillez saisir l'année de naissance\n"))
+                Nmonth = int(input("Veuillez saisir le mois de naissance\n"))
+                Nday = int(input("Veuillez saisir le jour de naissance\n"))
+            except Exception:
+                print("Problème de saisie, rééssayer")
+            else:
+                try: 
+                    if date(Nyear, Nmonth, Nday) > date.today():
+                        print("La date saisie impossible! Veuillez ressaisir.\n")
+                except Exception:
+                    print("La date saisie impossible! Veuillez ressaisir.\n")
+                else:
+                    tester = True
+        #Partie nationalité
+        Nnation = input("Veuillez saisir la nationalité du contributeur\n")
+
+        sql = "insert into contributeur values ('%d', '%s', '%s', '%s', '%s');" % (Nid_contributeur, Nnom, Nnom, date(Nyear, Nmonth, Nday), Nnation)
+        cur.execute(sql)
+    else:
+        #Contributeur existant
+        print("Vous avez sélectionné un contributeur existant\n")
+
+
+    #Distinction Type
+    if NtypeRessource==1:
+        print("Selectionner parmi ces 2 types\n1 Réalisateur\n2 Acteur\n")
+        tester = False
+        while not tester: 
+            try:
+                NtypeContrib = int(input())
+            except Exception:
+                print("Problème de saisie, rééssayer\n")
+            else:
+                if NtypeContrib not in [1, 2]:
+                    print("Choix impossible, rééssayer\n")
+                else:
+                    tester = True
+        if NtypeContrib==1:
+            sql = "insert into realisateur values ('%s', '%s');" % (Ncode, Nid_contributeur)
+        else:
+            sql = "insert into acteur values ('%s', '%s');" % (Ncode, Nid_contributeur)
+    elif NtypeRessource==2:
+        print("Selectionner parmi ces 2 types\n1 Compositeur\n2 Interprete\n")
+        tester = False
+        while not tester: 
+            try:
+                NtypeContrib = int(input())
+            except Exception:
+                print("Problème de saisie, rééssayer\n")
+            else:
+                if NtypeContrib not in [1, 2]:
+                    print("Choix impossible, rééssayer\n")
+                else:
+                    tester = True
+        if NtypeContrib==1:
+            sql = "insert into compositeur values ('%s', '%s');" % (Ncode, Nid_contributeur)
+        else:
+            sql = "insert into interprete values ('%s', '%s');" % (Ncode, Nid_contributeur)
+
+    elif NtypeRessource==3:
+        sql = "insert into auteur values ('%s', '%s');" % (Ncode, Nid_contributeur)
+        cur.execute(sql)
 
         
-
-
-
-        
-
-                    
-
-
-
-
-
 
 def gerer_ressources(cur, login):
     user_choix1 = -1
@@ -114,3 +207,13 @@ def gerer_ressources(cur, login):
                 analyser(cur, login)
             else :
                 print("Veuillez effectuer une saisie valide")
+
+HOST = "tuxa.sme.utc"
+USER = "nf18a074"
+PASSWORD = "ulk6EDbE"
+DATABASE = "dbnf18a074"
+conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
+cur = conn.cursor()
+
+
+ajouter_document(cur, "tutu.yuan") 
