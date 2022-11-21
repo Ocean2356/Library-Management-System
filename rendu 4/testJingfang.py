@@ -21,8 +21,8 @@ raw = cur.fetchall()
 for line in raw:
     print("%s %s %s\n"%(line[0], line[1], line[2])) """
 
-cur.execute(open("../rendu3/create.sql", "r").read())
-cur.execute(open("../rendu3/insert.sql", "r").read())
+cur.execute(open("/Users/yuanjingfang/课程/NF18/nf18_projet_td3_g5/rendu3/create.sql", "r").read())
+cur.execute(open("/Users/yuanjingfang/课程/NF18/nf18_projet_td3_g5/rendu3/insert.sql", "r").read())
 conn.commit()
 
 conn.close()

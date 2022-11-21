@@ -84,20 +84,20 @@ def ajouter_document(cur, login):
             Nisbn = int(input("Veuillez saisir le code ISBN du livre\n"))
             while Nisbn in existants:
                 Nisbn = int(input("L'code saisi existe déjà! Veuillez ressaisir. Si vous voulez quitter, entrez exit\n"))
-            Nlangue = input("Veuillez saisir la langue du film\n")
-            Nresume = input("Veuillez saisir le resumé du film\n")
-            sql = "insert into film values ('%d', '%s', '%s', '%s');" % (Nisbn, Nlangue, Nresume, Ncode)
+            Nlangue = input("Veuillez saisir la langue du livre\n")
+            Nresume = input("Veuillez saisir le resumé du livre\n")
+            sql = "insert into livre values ('%d', '%s', '%s', '%s');" % (Nisbn, Nlangue, Nresume, Ncode)
         
         cur.execute(sql)
 
         #Partie Contributeurs
         NbContrib = int(input("Il existe combien de comtributeurs ?\n"))
-        for i in range(1, NbContrib):
+        for i in range(0, NbContrib):
             print("%d contributeur\n"%i)
-            contributeur(NtypeRessource, cur)
+            contributeur(Ncode, NtypeRessource, cur)
 
 
-def contributeur(NtypeRessource, cur):
+def contributeur(Ncode, NtypeRessource, cur):
     #Informations générales
     #Partir ID Contrib
     sql = "select id_contributeur, nom, prenom from contributeur;"
@@ -139,7 +139,7 @@ def contributeur(NtypeRessource, cur):
         #Partie nationalité
         Nnation = input("Veuillez saisir la nationalité du contributeur\n")
 
-        sql = "insert into contributeur values ('%d', '%s', '%s', '%s', '%s');" % (Nid_contributeur, Nnom, Nnom, date(Nyear, Nmonth, Nday), Nnation)
+        sql = "insert into contributeur values ('%d', '%s', '%s', '%s', '%s');" % (Nid_contributeur, Nnom, Nprenom, date(Nyear, Nmonth, Nday), Nnation)
         cur.execute(sql)
     else:
         #Contributeur existant
@@ -184,7 +184,8 @@ def contributeur(NtypeRessource, cur):
 
     elif NtypeRessource==3:
         sql = "insert into auteur values ('%s', '%s');" % (Ncode, Nid_contributeur)
-        cur.execute(sql)
+    
+    cur.execute(sql)
 
         
 
@@ -217,3 +218,7 @@ cur = conn.cursor()
 
 
 ajouter_document(cur, "tutu.yuan") 
+
+conn.commit()
+
+conn.close()
