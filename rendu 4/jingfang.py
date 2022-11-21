@@ -187,7 +187,164 @@ def contributeur(Ncode, NtypeRessource, cur):
     
     cur.execute(sql)
 
-        
+
+
+def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est en panne 
+    dict_livres = {1:"code",  2:"titre", 3:"date_apparition", 4:"editeur", 5:"genre", 6:"code_classification", 7:"ISBN", 8:"langue", 9:"résumé"}
+    dict_musics = {1:"code",  2:"titre", 3:"date_apparition", 4:"editeur", 5:"genre", 6:"code_classification", 7:"longeur"}
+    dict_films = {1:"code",  2:"titre", 3:"date_apparition", 4:"editeur", 5:"genre", 6:"code_classification", 7:"langue", 8:"longeur", 9:"synopsis"}
+    sql = "select * from film_all;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    films = []
+    print("Les livres dans le système\n")
+    if not raw:
+        print("Liste vide\n")
+    else:
+        print("\tcode \ttitre \tdate_apparition \tediteur \tgenre \tcode_classification \tlangue \tlongeur \tsynopsis\n")
+        for ligne in raw:
+            print("\t%s \t%s \t%s \t%s \t%s \t%s \t%s \t%s \t%s\n"%(ligne[0], ligne[1], ligne[2], ligne[3], ligne[4], ligne[5], ligne[6], ligne[7], ligne[8]))
+            films.append(ligne[0])
+    
+    sql = "select * from livre_all;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    livres = []
+    print("Les films dans le système\n")
+    if not raw:
+        print("Liste vide\n")
+    else:
+        print("\tcode \ttitre \tdate_apparition \tediteur \tgenre \tcode_classification \tISBN \tlangue \trésumé\n")
+        for ligne in raw:
+            print("\t%s \t%s \t%s \t%s \t%s \t%s \t%s \t%s \t%s\n"%(ligne[0], ligne[1], ligne[2], ligne[3], ligne[4], ligne[5], ligne[6], ligne[7], ligne[8]))
+            livres.append(ligne[0])
+
+
+    sql = "select * from music_all;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    musics = []
+    print("Les enregistrements musicaux dans le système\n")
+    if not raw:
+        print("Liste vide\n")
+    else:
+        print("\tcode \ttitre \tdate_apparition \tediteur \tgenre \tcode_classification \tlongeur\n")
+        for ligne in raw:
+            print("\t%s \t%s \t%s \t%s \t%s \t%s \t%s\n"%(ligne[0], ligne[1], ligne[2], ligne[3], ligne[4], ligne[5], ligne[6]))
+            musics.append(ligne[0])
+
+    print("Veuillez saisir un code\n")
+    tester = False
+    while not tester: 
+        try:
+            Mcode = int(input())
+        except Exception:
+            print("Problème de saisie, rééssayer\n")
+        else:
+            if Mcode not in livres and Mcode not in music and Mcode not in films:
+                print("Choix impossible, rééssayer\n")
+            else:
+                tester = True
+    
+    print("Vous voulez modifier quel attribut ?\n")
+    if Mcode in livres:
+        print("1 code \n2 titre \n3 date_apparition \n4 editeur \n5 genre \n6 code_classification \n7 isbn \n8 langue \n9 résumé\n")
+        tester = False
+        while not tester: 
+            try:
+                Mchoix = int(input())
+            except Exception:
+                print("Problème de saisie, rééssayer\n")
+            else:
+                if Mchoix not in dict_livres:
+                    print("Choix impossible, rééssayer\n")
+                else:
+                    tester = True
+        Mvaleur = input("Veuillez saisir la nouvelle valeur\n")
+        if Mchoix==1:
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mchoix, Mcode, dict_livres[Mchoix], Mchoix, Mcode)#Possiblement problématique
+
+        elif Mchoix<=6:
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_livres[Mchoix], Mchoix, Mcode)
+        else:
+            sql = "UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mchoix, Mcode)
+    elif Mcode in musics:
+        print("1 code \n2 titre \n3 date_apparition \n4 editeur \n5 genre \n6 code_classification \n7 longeur\n")
+        tester = False
+        while not tester: 
+            try:
+                Mchoix = int(input())
+            except Exception:
+                print("Problème de saisie, rééssayer\n")
+            else:
+                if Mchoix not in dict_musics:
+                    print("Choix impossible, rééssayer\n")
+                else:
+                    tester = True
+        Mvaleur = input("Veuillez saisir la nouvelle valeur\n")
+        if Mchoix==1:
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE oeuvre_musicale SET %s = '%s' WHERE ressource='%s';"%(dict_musics[Mchoix], Mchoix, Mcode, dict_musics[Mchoix], Mchoix, Mcode)#Possiblement problématique
+        elif Mchoix<=6:
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_musics[Mchoix], Mchoix, Mcode)
+        else:
+            sql = "UPDATE oeuvre_musicale SET %s = '%s' WHERE ressource='%s';"%(dict_musics[Mchoix], Mchoix, Mcode)
+
+    else:
+        print("1 code \n2 titre \n3 date_apparition \n4 editeur \n5 genre \n6 code_classification \n7 langue \n8 longeur \n9 synopsis\n")
+        tester = False
+        while not tester: 
+            try:
+                Mchoix = int(input())
+            except Exception:
+                print("Problème de saisie, rééssayer\n")
+            else:
+                if Mchoix not in dict_films:
+                    print("Choix impossible, rééssayer\n")
+                else:
+                    tester = True
+        Mvaleur = input("Veuillez saisir la nouvelle valeur\n")
+        if Mchoix==1:
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE film SET %s = '%s' WHERE ressource='%s';"%(dict_films[Mchoix], Mchoix, Mcode, dict_films[Mchoix], Mchoix, Mcode)#Possiblement problématique
+        elif Mchoix<=6:
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_films[Mchoix], Mchoix, Mcode)
+        else:
+            sql = "UPDATE film SET %s = '%s' WHERE ressource='%s';"%(dict_films[Mchoix], Mchoix, Mcode)
+    
+    try:
+        cur.execute(sql)
+    except Exception:
+        print("Problème lors de l'insertion, opération échouée\n")
+
+
+
+def supprimer_document(cur, login): #Fonction non testée, serveur PSQL est en panne 
+    sql = "select * from ressource;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    existants = []
+    if not raw:
+        print("Liste vide\n")
+    else:
+        print("\tcode \ttitre \tdate_apparition \tediteur \tgenre \tcode_classification\n")
+        for ligne in raw:
+            print("\t%s \t%s \t%s \t%s \t%s \t%s \n"%(ligne[0], ligne[1], ligne[2], ligne[3], ligne[4], ligne[5]))
+            existants.append(ligne[0])
+    tester = False
+    while not tester: 
+        try:
+            Scode = int(input("Veuillez saisir le code du document à supprimer\n"))
+        except Exception:
+            print("Problème de saisie\n")
+        else:
+            if Scode != "exit" and Scode not in existants:
+                print("L'code saisi n'est pas dans le système! Veuillez ressaisir. Si vous voulez quitter, entrez exit\n")
+            else:
+                tester = True
+    sql = "delete from ressource where code='%s'"%Scode
+    sql.execute()
+    
+
+            
 
 def gerer_ressources(cur, login):
     user_choix1 = -1
@@ -201,15 +358,13 @@ def gerer_ressources(cur, login):
             if user_choix1=="1":
                 ajouter_document(cur, login)
             elif user_choix1=="2":
-                gerer_pret(cur, login)
+                modifier_document(cur, login)
             elif user_choix1=="3":
-                gerer_user(cur, login)
-            elif user_choix1=="4":
-                analyser(cur, login)
+                supprimer_document(cur, login)
             else :
                 print("Veuillez effectuer une saisie valide")
 
-HOST = "tuxa.sme.utc"
+""" HOST = "tuxa.sme.utc"
 USER = "nf18a074"
 PASSWORD = "ulk6EDbE"
 DATABASE = "dbnf18a074"
@@ -221,4 +376,4 @@ ajouter_document(cur, "tutu.yuan")
 
 conn.commit()
 
-conn.close()
+conn.close() """
