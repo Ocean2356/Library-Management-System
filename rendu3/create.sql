@@ -63,13 +63,13 @@ CREATE TABLE ressource(
 CREATE TABLE exemplaire(
     id_exemplaire INTEGER,
     etat VARCHAR NOT NULL CHECK(etat IN ('neuf', 'bon', 'abime', 'perdu')),
-    ressource INTEGER REFERENCES ressource(code),
+    ressource INTEGER REFERENCES ressource(code) ON DELETE CASCADE,
     PRIMARY KEY (id_exemplaire, ressource)
 );
 
 CREATE TABLE reservation(
     adherent VARCHAR REFERENCES compte_adherent(login),
-    ressource INTEGER REFERENCES ressource(code),
+    ressource INTEGER REFERENCES ressource(code) ON DELETE CASCADE ,
     date_reserve DATE,
     PRIMARY KEY (adherent, ressource, date_reserve)  
 );
@@ -83,7 +83,7 @@ CREATE TABLE pret(
     date_retour DATE CHECK(date_retour>=date_pret),
     etat_retour VARCHAR CHECK(etat_retour IN ('neuf', 'bon', 'abime', 'perdu')),
     PRIMARY KEY (adherent, exemplaire, code_ressource, date_pret),
-    FOREIGN KEY (exemplaire, code_ressource) REFERENCES exemplaire(id_exemplaire, ressource)  
+    FOREIGN KEY (exemplaire, code_ressource) REFERENCES exemplaire(id_exemplaire, ressource) ON DELETE CASCADE 
 );
 
 CREATE TABLE sanction(
@@ -123,19 +123,19 @@ CREATE TABLE livre(
     isbn NUMERIC(13) NOT NULL UNIQUE,
     langue VARCHAR NOT NULL,
     resumé VARCHAR NOT NULL,--Potentiellement problématique
-    ressource INTEGER PRIMARY KEY REFERENCES ressource(code)
+    ressource INTEGER PRIMARY KEY REFERENCES ressource(code) ON DELETE CASCADE
 );
 
 CREATE TABLE film(
     langue VARCHAR NOT NULL,
     longeur TIME NOT NULL, --modify MLD
     synopsis VARCHAR NOT NULL,
-    ressource INTEGER PRIMARY KEY REFERENCES ressource(code)
+    ressource INTEGER PRIMARY KEY REFERENCES ressource(code) ON DELETE CASCADE
 );
 
 CREATE TABLE oeuvre_musicale(
     longeur TIME NOT NULL,
-    ressource INTEGER PRIMARY KEY REFERENCES ressource(code)
+    ressource INTEGER PRIMARY KEY REFERENCES ressource(code) ON DELETE CASCADE
 );
 
 CREATE TABLE contributeur(
@@ -147,31 +147,40 @@ CREATE TABLE contributeur(
 );
 
 CREATE TABLE auteur(
-    livre INTEGER NOT NULL REFERENCES livre(ressource),
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
+    livre INTEGER NOT NULL REFERENCES livre(ressource) ON DELETE CASCADE,
+    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
     PRIMARY KEY(livre, id_contributeur)
 );
 
 CREATE TABLE compositeur(
-    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(ressource),
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
+    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(ressource) ON DELETE CASCADE,
+    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
     PRIMARY KEY(musique, id_contributeur)
 );
 
 CREATE TABLE interprete(
-    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(ressource),
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
+    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(ressource) ON DELETE CASCADE,
+    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
     PRIMARY KEY(musique, id_contributeur)
 );
 
 CREATE TABLE realisateur(
-    film INTEGER NOT NULL REFERENCES film(ressource),
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
+    film INTEGER NOT NULL REFERENCES film(ressource) ON DELETE CASCADE,
+    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
     PRIMARY KEY(film,id_contributeur)
 );
 
 CREATE TABLE acteur( -- without 's'
-    film INTEGER NOT NULL REFERENCES film(ressource),
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur),
+    film INTEGER NOT NULL REFERENCES film(ressource) ON DELETE CASCADE,
+    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
     PRIMARY KEY(film,id_contributeur)
-)
+);
+
+CREATE VIEW film_all AS 
+SELECT r.*, f.langue, f.longeur, f.synopsis FROM ressource r JOIN film f ON r.code=f.ressource; 
+
+CREATE VIEW livre_all AS 
+SELECT r.*, f.isbn, f.langue, f.resumé FROM ressource r JOIN livre f ON r.code=f.ressource; 
+
+CREATE VIEW music_all AS 
+SELECT r.*, f.longeur FROM ressource r JOIN oeuvre_musicale f ON r.code=f.ressource; 
