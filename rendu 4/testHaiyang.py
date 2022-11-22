@@ -15,10 +15,10 @@ def visualiser(cur, login):
 def recherche(cur):
     print("Entrer les mots clés à rechercher pour chaque champ")
     t = input("Titre : ")
-#    d = input("Date d'apparition : ")
+    # d = input("Date d'apparition : ")
     e = input("Éditeur : ")
     g = input("Genre : ")
-    c = input("Contributeur : ")
+    # c = input("Contributeur : ")
     sql = """SELECT r.*
             FROM ressource r
             WHERE r.titre LIKE '%"""+t+"""%'
@@ -76,8 +76,10 @@ def recherche(cur):
 
 
 HOST = "tuxa.sme.utc"
-USER = "nf18a074"
-PASSWORD = "ulk6EDbE"
+# USER = "nf18a074"
+# PASSWORD = "ulk6EDbE"
+USER = "nf18a061"
+PASSWORD = "l0ixTFxR"
 DATABASE = "dbnf18a074"
 conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
 

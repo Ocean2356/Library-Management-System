@@ -1,0 +1,23 @@
+
+"""SELECT *
+    FROM pret
+    WHERE adherent = '%s'
+    ;""" % (login)
+
+"""SELECT r.*
+    FROM ressource r
+    WHERE r.titre LIKE '%"""+t+"""%'
+        AND r.editeur LIKE '%"""+e+"""%'
+        AND r.genre LIKE '%"""+g+"""%'
+        ;"""
+
+"""select * 
+    from livre l 
+    where l.ressource = '%d'
+    ;""" % code
+
+"""select c.*
+    from auteur p, contributeur c
+    where p.livre = %d
+        and p.id_contributeur = c.id_contributeur
+    ;""" % code
