@@ -70,6 +70,7 @@ user_choix = -1
 conn = connexion()
 cur = conn.cursor()
 while user_choix!="0": #partie adhérant pour l'instant
+    print("--------------------------------------------------------")
     print("1 Connexion")
     print("0 Quitter")
     user_choix = input("Saisir votre choix : ")
