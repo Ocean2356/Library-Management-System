@@ -194,7 +194,7 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
     cur.execute(sql)
     raw = cur.fetchall()
     films = []
-    print("Les livres dans le système\n")
+    print("Les films dans le système\n")
     if not raw:
         print("Liste vide\n")
     else:
@@ -207,7 +207,7 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
     cur.execute(sql)
     raw = cur.fetchall()
     livres = []
-    print("Les films dans le système\n")
+    print("Les livres dans le système\n")
     if not raw:
         print("Liste vide\n")
     else:
@@ -238,7 +238,7 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
         except Exception:
             print("Problème de saisie, rééssayer\n")
         else:
-            if Mcode not in livres and Mcode not in music and Mcode not in films:
+            if Mcode not in livres and Mcode not in musics and Mcode not in films:
                 print("Choix impossible, réessayer\n")
             else:
                 tester = True
@@ -260,7 +260,7 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
         Mvaleur = input("Veuillez saisir la nouvelle valeur : ")
         if Mchoix==1:
             sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mchoix, Mcode, dict_livres[Mchoix], Mchoix, Mcode)#Possiblement problématique
-
+            
         elif Mchoix<=6:
             sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_livres[Mchoix], Mchoix, Mcode)
         else:
@@ -301,7 +301,9 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
                     tester = True
         Mvaleur = input("Veuillez saisir la nouvelle valeur : ")
         if Mchoix==1:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE film SET %s = '%s' WHERE ressource='%s';"%(dict_films[Mchoix], Mchoix, Mcode, dict_films[Mchoix], Mchoix, Mcode)#Possiblement problématique
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE film SET ressource = '%s' WHERE ressource='%s';"%(dict_films[Mchoix], Mvaleur, Mcode, Mvaleur, Mcode)#Possiblement problématique
+            print(sql)
+            print("\n")
         elif Mchoix<=6:
             sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_films[Mchoix], Mchoix, Mcode)
         else:
@@ -356,7 +358,7 @@ def gerer_ressources(cur, login):
             else :
                 print("Veuillez effectuer une saisie valide")
 
-""" HOST = "tuxa.sme.utc"
+HOST = "tuxa.sme.utc"
 USER = "nf18a074"
 PASSWORD = "ulk6EDbE"
 DATABASE = "dbnf18a074"
@@ -364,8 +366,10 @@ conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABAS
 cur = conn.cursor()
 
 
-ajouter_document(cur, "tutu.yuan") 
+#ajouter_document(cur, "tutu.yuan") 
+modifier_document(cur, "tutu.yuan")
+
 
 conn.commit()
 
-conn.close() """
+conn.close()
