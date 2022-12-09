@@ -125,9 +125,9 @@ def Nouveau_pret(cur):
     sql = "select exemplaire from pret where exemplaire='%s' and date_retour is null;" % (exemplaire)
     cur.execute(sql)
     raw = cur.fetchone()
-    #test exemplaire
-    while raw:
-        user_choix=-1
+    if raw:
+        exemplaire_prete = 0
+    while exemplaire_prete == 0:
         print("Exemplaire déjà en prêté, voulez vous le réserver ?")
         print("1 Oui")
         print("0 Non")
@@ -135,15 +135,20 @@ def Nouveau_pret(cur):
         if user_choix == 1:
             Reservation(login_adh,code_ressource,cur)
             exit()
-        if user_choix==0:
-            while raw:
-                print("Saisie invalide, saisissez un nouvel exemplaire !")
-                exemplaire = int(input("Numéro : "))
-                sql = "select exemplaire from pret where exemplaire='%s' and date_retour is null;" % (exemplaire)
-                cur.execute(sql)
-                raw = cur.fetchone()
-    #SQL
-    sql = "insert into pret(adherent,exemplaire,code_ressource,date_pret,duree_pret) values ('%s','%s','%s','%s','%s');"%(login_adh, exemplaire, code_ressource, date(Nyear_pret,Nmonth_pret,Nday_pret), nb_jours)
+        if user_choix == 0:
+            # code ressource
+            print("Entrée le code la ressource prêté")
+            code_ressource = int(input("Code ressource : "))
+            # exemplaire
+            print("Entrée le numéro de l'exemplaire prêté")
+            exemplaire = int(input("Numéro : "))
+            sql = "select exemplaire from pret where exemplaire='%s' and date_retour is null;" % (exemplaire)
+            cur.execute(sql)
+            raw = cur.fetchone()
+            if not raw :
+                exemplaire_prete = 1
+    # SQL
+    sql = "insert into pret(adherent,exemplaire,code_ressource,date_pret,duree_pret) values ('%s','%s','%s','%s','%s');" % (login_adh, exemplaire, code_ressource, date(Nyear_pret, Nmonth_pret, Nday_pret), nb_jours)
     cur.execute(sql)
 
 def Retour_pret(cur):
@@ -183,7 +188,7 @@ def Retour_pret(cur):
     cur.execute(sql)
     raw = cur.fetchone()
     #test exemplaire
-    while raw:
+    while not raw:
         print("Exemplaire non prêté, veuillez réessayer")
         exemplaire = int(input("Numéro : "))
         sql = "select exemplaire from pret where exemplaire='%s' and date_retour is null;" % (exemplaire)
@@ -288,3 +293,56 @@ def Supprimer_reservation(cur):
     code_ressource = int(input("Code ressource : "))
     sql = "delete from reservation where adherent='%s' and ressource='%s';" %(login_adh, code_ressource)
     cur.execute(sql)
+
+def analyser (cur):
+    user_choix1 = -1
+    while user_choix1!="0":
+        print("--------------------------------------------------------")
+        print("1 Documents les plus empruntés")
+        print("2 Livres les plus empruntés")
+        print("3 Musiques les plus empruntés")
+        print("4 Films les plus empruntés")
+        print("0 Quitter")
+        user_choix1 = input("Selectionner un choix : ")
+        if user_choix1!="0":
+            if user_choix1=="1":
+                document_favori(cur)
+
+            else :
+                print("Veuillez effectuer une saisie valide !")
+
+def document_favori(cur):
+    global nb_favori
+    document_favori=[]
+    sql="SELECT exemplaire, COUNT(exemplaire) AS nb FROM Pret GROUP BY exemplaire ORDER BY nb DESC;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    if len(raw)>=3:
+        nb_favori = 3
+    elif len(raw) == 2:
+        nb_favori = 2
+    elif len(raw) == 1:
+        nb_favori = 1
+    for i in range (nb_favori):
+        code_document = raw[i]
+        sql="SELECT * FROM ressource JOIN exemplaire ON ressource.code = exemplaire.ressource WHERE exemplaire.id_exemplaire = '%s';" %(code_document[0])
+        cur.execute(sql)
+        document = cur.fetchall()
+        document_favori.append(document)
+    #Aucun favori
+    if document_favori == []:
+        print("--------------------")
+        print("Document n'est favori")
+        print("--------------------")
+        user_choix = "0"
+    #Affichage des prêts en cours
+    print("--------------------------------------------------------")
+    for i in range(nb_favori):
+        print("Le code du document est :",document_favori[i][0][0])
+        print("Le titre du document est : ",document_favori[i][0][1])
+        print("La date du document est : ", document_favori[i][0][2])
+        print("Le nom de l'éditeur est : ",document_favori[i][0][3])
+        print("Le genre du document est :",document_favori[i][0][4])
+        print("Le code de classification du document est ", document_favori[i][0][5])
+        print("--------------------------------------------------------")
+
