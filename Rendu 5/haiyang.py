@@ -5,7 +5,7 @@ def recherche(cur):
     e = input("Éditeur : ")
     g = input("Genre : ")
     # c = input("Contributeur : ")
-    sql = """SELECT r.*
+    sql = """select r.*
             FROM ressource r
             WHERE r.titre LIKE '%"""+t+"""%'
                 AND r.editeur LIKE '%"""+e+"""%'
@@ -59,10 +59,10 @@ def recherche(cur):
         print()
         
 """def visualiser(cur, login):
-    sql = """SELECT *
+    sql = SELECT *
             FROM pret
             WHERE adherent = '%s'
-            ;""" % (login)
+            ; % (login)
     cur.execute(sql)
     raw = cur.fetchall()
     for ligne in raw:
@@ -82,9 +82,10 @@ def visualiser(cur, login):
                 print("                Emprunts terminé ")
                 user_choix = -1
                 i_emprunt = 0
-                sql = "select * from pret where adherent='%s' and date_retour is not null;" % (login)
+                sql = "SELECT ressource.code, ressource.titre, ressource.date_apparition, ressource.editeur, ressource.genre, pret.exemplaire, pret.date_pret, pret.duree_pret, pret.etat_retour, pret.date_retour FROM ressource JOIN pret ON pret.code_ressource = ressource.code WHERE adherent='%s' and date_retour is not null;" % (login)
                 cur.execute(sql)
                 raw = cur.fetchall()
+                print(raw)
                 # Aucun prêt en cour
                 if raw == []:
                     print("--------------------")
@@ -95,13 +96,16 @@ def visualiser(cur, login):
                 nombre_emprunt = len(raw)
                 while user_choix != "0":
                     print("--------------------------------------------------------")
-                    print("Le document à était emprunté par :", raw[i_emprunt][0])
-                    print("C'est l'exemplaire numéro : ", raw[i_emprunt][1])
-                    print("Le code du document est : ", raw[i_emprunt][2])
-                    print("Le début du prêt est en date du : ", raw[i_emprunt][3])
-                    print("La durée du prêt est de ", raw[i_emprunt][4], "jours")
-                    print("La fin du prêt est en date du : ", raw[i_emprunt][5])
-                    print("L'état au retour est", raw[i_emprunt][6])
+                    print("Le code du document est :", raw[i_emprunt][0])
+                    print("Le titre du document est : ", raw[i_emprunt][1])
+                    print("Il a été publié le : ", raw[i_emprunt][2])
+                    print("Il a été publié par : ", raw[i_emprunt][3])
+                    print("Le genre du document est : ", raw[i_emprunt][4])
+                    print("C'est l'exemplaire numéro : ", raw[i_emprunt][5])
+                    print("Il a été prété le : ", raw[i_emprunt][6])
+                    print("Pour un durée de ", raw[i_emprunt][7], " jours")
+                    print("Il a été rendu dans un état : ", raw[i_emprunt][8])
+                    print("Il a été rendu le : ", raw[i_emprunt][9])
                     print("--------------------------------------------------------")
                     print("1 Pour passer à l'emprunt suivant")
                     print("0 Pour quitter")
@@ -116,7 +120,7 @@ def visualiser(cur, login):
                 print("                Emprunts en cours ")
                 user_choix = -1
                 i_emprunt = 0
-                sql = "select * from pret where adherent='%s' and date_retour is null;" % (login)
+                sql = "SELECT ressource.code, ressource.titre, ressource.date_apparition, ressource.editeur, ressource.genre, pret.exemplaire, pret.date_pret, pret.duree_pret FROM ressource JOIN pret ON pret.code_ressource = ressource.code WHERE adherent='%s' and date_retour is not null;" % (login)
                 cur.execute(sql)
                 raw = cur.fetchall()
                 # Aucun prêt en cour
@@ -129,11 +133,14 @@ def visualiser(cur, login):
                 nombre_emprunt = len(raw)
                 while user_choix != "0":
                     print("--------------------------------------------------------")
-                    print("Le document à était emprunté par :", raw[i_emprunt][0])
-                    print("C'est l'exemplaire numéro : ", raw[i_emprunt][1])
-                    print("Le code du document est : ", raw[i_emprunt][2])
-                    print("Le début du prêt est en date du : ", raw[i_emprunt][3])
-                    print("La durée du prêt est de ", raw[i_emprunt][4], "jours")
+                    print("Le code du document est :", raw[i_emprunt][0])
+                    print("Le titre du document est : ", raw[i_emprunt][1])
+                    print("Il a été publié le : ", raw[i_emprunt][2])
+                    print("Il a été publié par : ", raw[i_emprunt][3])
+                    print("Le genre du document est : ", raw[i_emprunt][4])
+                    print("C'est l'exemplaire numéro : ", raw[i_emprunt][5])
+                    print("Il a été prété le : ", raw[i_emprunt][6])
+                    print("Pour un durée de ", raw[i_emprunt][7], " jours")
                     print("--------------------------------------------------------")
                     print("1 Pour passer à l'emprunt suivant")
                     print("0 Pour quitter")
