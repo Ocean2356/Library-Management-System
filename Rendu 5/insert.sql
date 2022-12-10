@@ -14,17 +14,20 @@ INSERT INTO personnel VALUES (1001, 'Lefreuvre', 'Eric', 'boulevard Henry, Menar
 INSERT INTO personnel VALUES (1002, 'Genet', 'Gaël', '63, place Hamon, Boyer-la-Foret', 'geal.genet@outlook.fr');
 INSERT INTO personnel VALUES (1003, 'Sharpe', 'Brice', '15, rue Antoinette Pasquier, Fabre-sur-Julien', 'brice.sharpe@outlook.fr');
 INSERT INTO personnel VALUES (1004, 'Boulle', 'Hugues', '35, avenue de Texier, Lefevre-les-Bains', 'hugues.boulle@outlook.fr');
+INSERT INTO personnel VALUES (1005, 'Admin ', 'Admin', '50, avenue de Texier, Lefevre-les-Bains', 'admin.admin@outlook.fr');
 
 INSERT INTO compte_personnel VALUES ('eric.lefreuve', '789', 1001);
 INSERT INTO compte_personnel VALUES ('gael.genet', '159', 1002);
 INSERT INTO compte_personnel VALUES ('brice.sharpe', '753;', 1003);
 INSERT INTO compte_personnel VALUES ('hugues.boulle', '456', 1004);
+INSERT INTO compte_personnel VALUES ('Admin', '123', 1004);
 
 /* RESSOURCE */
 INSERT INTO ressource VALUES (101024, 'Le Petit Prince', '1943-04-6', 'Aegitas', 'Roman', 1010);
 INSERT INTO ressource VALUES (101100, 'L Etranger', '1942-06-24', 'Edition Gallimard', 'Roman', 1011);
-INSERT INTO ressource VALUES (112048, 'Titanic', '1998-01-07', '20th Century Fox', 'Film', 1120);
-INSERT INTO ressource VALUES (112112, 'Avatar', '2009-12-16', '20th Century Fox', 'Film', 1121);
+INSERT INTO ressource VALUES (112048, 'Titanic', '1998-01-07', '20th Century Fox', 'Amour', 1120);
+INSERT INTO ressource VALUES (112112, 'Avatar', '2009-12-16', '20th Century Fox', 'Science Fiction', 1121);
+INSERT INTO ressource VALUES (112211, 'Speed', '1994-06-10', '20th Century Fox', 'Action', 1122);
 INSERT INTO ressource VALUES (124096, 'Billie Jean', '1982-04-12', 'Epic Records', 'Pop', 1240);
 INSERT INTO ressource VALUES (124163, 'De la lune', '2021-02-25', 'NBOW', 'Rap', 1241);
 
@@ -35,6 +38,7 @@ INSERT INTO exemplaire VALUES (10110001, 'bon', 101100);
 INSERT INTO exemplaire VALUES (11204801, 'abime', 112048);
 INSERT INTO exemplaire VALUES (11211201, 'bon', 112112);
 INSERT INTO exemplaire VALUES (11211202, 'neuf', 112112);
+INSERT INTO exemplaire VALUES (11221101, 'neuf', 112211);
 INSERT INTO exemplaire VALUES (12409601, 'perdu', 124096);
 INSERT INTO exemplaire VALUES (12416301, 'perdu', 124163);
 
@@ -57,6 +61,7 @@ INSERT INTO livre VALUES(9780203978696, 'Fr', 'Publié en 1942, l''Étranger ret
 /* FILM */
 INSERT INTO film VALUES ('En', '03:14:00', 'En 1997, l''épave du Titanic est l''objet d''une exploration fiévreuse, menée par des chercheurs de trésor en quête d''un diamant bleu qui se trouvait à bord. Frappée par un reportage télévisé, l''une des rescapées du naufrage, âgée de 102 ans, Rose DeWitt, se rend sur place et évoque ses souvenirs. 1912. Fiancée à un industriel arrogant, Rose croise sur le bateau un artiste sans le sou.', 112048);
 INSERT INTO film VALUES ('En', '02:41:00', 'Sur le monde extraterrestre luxuriant de Pandora vivent les Na''vi,des êtres qui semblent primitifs, mais qui sont très évolués. Jake Sully,un ancien Marine paralysé,redevient mobile grâce à un tel Avatar et tombe amoureux d''une femme Na''vi. Alors qu''un lien avec elle grandit,il est entraîné dans une bataille pour la survie de son monde.', 112112);
+INSERT INTO film VALUES ('En', '01:56:00', 'Un jeune policier est aux prises avec un maître chanteur, artificier à la retraite, qui menace de faire sauter un autobus dans lequel il a placé une bombe. Les règles sont simples : si quelqu''un descend du bus ou si la vitesse de celui-ci passe sous les 80 kilomètres à l''heure, le véhicule explosera.', 112211);
 /* MUSIQUE */
 INSERT INTO oeuvre_musicale VALUES ('00:06:22', 124096);
 INSERT INTO oeuvre_musicale VALUES ('00:03:17', 124163);
@@ -71,8 +76,10 @@ INSERT INTO contributeur VALUES (65432106, 'de Saint-Exupéry', 'Antoine', '1900
 INSERT INTO contributeur VALUES (65432107, 'Camus', 'Albert', '1913-11-07', 'Français');
 INSERT INTO contributeur VALUES (65432108, 'Cameron', 'James', '1954-08-16', 'Américain');
 INSERT INTO contributeur VALUES (65432109, 'Jackson', 'Michael', '1958-08-29', 'Américain');
-INSERT INTO contributeur VALUES (65432110, 'Jacques', 'B.B', '1999-05-10', 'Français');
+INSERT INTO contributeur VALUES (65432110, 'Jacques', 'B.B', '1999-05-10', 'Beyrouth');
 INSERT INTO contributeur VALUES (65432111, 'Rodriguez', 'Michelle', '1978-07-12', 'Américaine');
+INSERT INTO contributeur VALUES (65432112, 'de Bont', 'Jan', '1973-10-22', 'Néerlandais');
+INSERT INTO contributeur VALUES (65432113, 'Reeves', 'Keanu', '1964-09-02', 'Beyrouth');
 
 /*Le Petit Prince */
 INSERT INTO auteur VALUES(101024, 65432106);
@@ -90,3 +97,6 @@ INSERT INTO acteur VALUES (112048, 65432105);
 /*Avatar */
 INSERT INTO realisateur VALUES (112112, 65432108);
 INSERT INTO acteur VALUES (112112, 65432111);
+/* Speed */
+INSERT INTO realisateur VALUES (112211, 65432112);
+INSERT INTO acteur VALUES (112211, 65432113);
