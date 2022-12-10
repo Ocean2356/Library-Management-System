@@ -85,7 +85,6 @@ def visualiser(cur, login):
                 sql = "SELECT ressource.code, ressource.titre, ressource.date_apparition, ressource.editeur, ressource.genre, pret.exemplaire, pret.date_pret, pret.duree_pret, pret.etat_retour, pret.date_retour FROM ressource JOIN pret ON pret.code_ressource = ressource.code WHERE adherent='%s' and date_retour is not null;" % (login)
                 cur.execute(sql)
                 raw = cur.fetchall()
-                print(raw)
                 # Aucun prêt en cour
                 if raw == []:
                     print("--------------------")
