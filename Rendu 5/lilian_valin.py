@@ -1,6 +1,6 @@
 from datetime import date
 
-def gerer_pret(cur, login):
+def Gerer_pret(cur, login):
     user_choix = -1
     while user_choix != "0":
         print("--------------------------------------------------------")
@@ -91,6 +91,8 @@ def Affichage_pret_fini(cur):
 
 def Nouveau_pret(cur):
     #login
+    global exemplaire_prete
+    exemplaire_prete = 1
     print("Entrée le login de l'adhérent")
     login_adh = input("Login : ")
     sql = "select login from compte_adherent where login='%s';" % (login_adh)
@@ -294,24 +296,20 @@ def Supprimer_reservation(cur):
     sql = "delete from reservation where adherent='%s' and ressource='%s';" %(login_adh, code_ressource)
     cur.execute(sql)
 
-def analyser (cur):
+def Analyser (cur):
     user_choix1 = -1
     while user_choix1!="0":
         print("--------------------------------------------------------")
         print("1 Documents les plus empruntés")
-        print("2 Livres les plus empruntés")
-        print("3 Musiques les plus empruntés")
-        print("4 Films les plus empruntés")
         print("0 Quitter")
         user_choix1 = input("Selectionner un choix : ")
         if user_choix1!="0":
             if user_choix1=="1":
-                document_favori(cur)
-
+                Document_favori(cur)
             else :
                 print("Veuillez effectuer une saisie valide !")
 
-def document_favori(cur):
+def Document_favori(cur):
     global nb_favori
     document_favori=[]
     sql="SELECT exemplaire, COUNT(exemplaire) AS nb FROM Pret GROUP BY exemplaire ORDER BY nb DESC;"
@@ -332,10 +330,10 @@ def document_favori(cur):
     #Aucun favori
     if document_favori == []:
         print("--------------------")
-        print("Document n'est favori")
+        print("Aucun document n'est favori")
         print("--------------------")
         user_choix = "0"
-    #Affichage des prêts en cours
+    #Affichage des favoris
     print("--------------------------------------------------------")
     for i in range(nb_favori):
         print("Le code du document est :",document_favori[i][0][0])
@@ -346,3 +344,41 @@ def document_favori(cur):
         print("Le code de classification du document est ", document_favori[i][0][5])
         print("--------------------------------------------------------")
 
+def Document_recommande (cur, login):
+    document_recommande = []
+    document_emprunte = []
+    affichage = False
+    #Tableau avec date_apparition, editeur et genre que l'adherent à déjà emprunté
+    sql = "SELECT ressource.code, ressource.date_apparition, ressource.editeur, ressource.genre FROM ressource JOIN pret ON pret.code_ressource = ressource.code WHERE adherent='%s';" % (login)
+    cur.execute(sql)
+    raw = cur.fetchall()
+    for i in range(len(raw)):
+        code = raw[i][0]
+        document_emprunte.append(code)
+        annee_apparition=raw[i][1].timetuple()
+        editeur = raw[i][2]
+        genre = raw[i][3]
+        sql = "SELECT code FROM ressource  WHERE NOT (code='%s') AND (editeur = '%s' OR genre = '%s');" % (code, editeur,genre)
+        cur.execute(sql)
+        recommandation = cur.fetchall()
+        if recommandation :
+            for i in range(len(recommandation)):
+                document_recommande.append(recommandation[i][0])
+        document_recommande=list(set(document_recommande))
+    print("--------------------------------------------------------")
+    for i in document_recommande:
+        sql = "SELECT * FROM ressource JOIN exemplaire ON ressource.code = exemplaire.ressource WHERE ressource.code = '%s';" % (i)
+        cur.execute(sql)
+        document = cur.fetchone()
+        if document[0] not in document_emprunte :
+            affichage = True
+            # Affichage des recommandations
+            print("Le code du document est :", document[0])
+            print("Le titre du document est : ", document[1])
+            print("La date du document est : ", document[2])
+            print("Le nom de l'éditeur est : ", document[3])
+            print("Le genre du document est :", document[4])
+            print("Le code de classification du document est : ", document[5])
+            print("--------------------------------------------------------")
+    if affichage == False :
+        print("         Aucune recommandation pour vous")
