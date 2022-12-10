@@ -4,7 +4,7 @@ from jingfang import gerer_ressources, ajouter_document, supprimer_document, mod
 from haiyang import recherche, visualiser
 from lilian_valin import Gerer_pret, Affichage_pret_en_cour, Affichage_pret_fini, Nouveau_pret, Retour_pret, Analyser, Document_recommande
 from abdallah import gerer_user
-
+"""
 # Login PSQL
 def connexion():
     conn = psycopg2.connect(
@@ -14,15 +14,15 @@ def connexion():
         port="5432",
         database="postgres")
     return conn
-
-"""# Login BDD UTC
+"""
+# Login BDD UTC
 def connexion():
     HOST = "tuxa.sme.utc"
     USER = "nf18a074"
     PASSWORD = "ulk6EDbE"
     DATABASE = "dbnf18a074"
     conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
-    return conn"""
+    return conn
 
 def adherant(cur, login):
     #partie menu adherant
