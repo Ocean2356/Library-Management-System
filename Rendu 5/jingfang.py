@@ -367,7 +367,7 @@ cur = conn.cursor()
 
 
 #ajouter_document(cur, "tutu.yuan") 
-modifier_document(cur, "tutu.yuan")
+#modifier_document(cur, "tutu.yuan")
 
 
 conn.commit()
