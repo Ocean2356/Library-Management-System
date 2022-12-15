@@ -341,7 +341,7 @@ def supprimer_document(cur, login): #Fonction non testée, serveur PSQL est en p
             else:
                 tester = True
     sql = "delete from ressource where code='%s'"%Scode
-    sql.execute()
+    cur.execute(sql)
     
 
             

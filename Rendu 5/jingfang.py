@@ -259,12 +259,12 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
                     tester = True
         Mvaleur = input("Veuillez saisir la nouvelle valeur : ")
         if Mchoix==1:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mchoix, Mcode, dict_livres[Mchoix], Mchoix, Mcode)#Possiblement problématique
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mvaleur, Mcode, dict_livres[Mchoix], Mchoix, Mcode)#Possiblement problématique
             
         elif Mchoix<=6:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_livres[Mchoix], Mchoix, Mcode)
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_livres[Mchoix], Mvaleur, Mcode)
         else:
-            sql = "UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mchoix, Mcode)
+            sql = "UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mvaleur, Mcode)
     elif Mcode in musics:
         print("1 code \n2 titre \n3 date_apparition \n4 editeur \n5 genre \n6 code_classification \n7 longeur\n")
         tester = False
@@ -280,11 +280,11 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
                     tester = True
         Mvaleur = input("Veuillez saisir la nouvelle valeur : ")
         if Mchoix==1:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE oeuvre_musicale SET %s = '%s' WHERE ressource='%s';"%(dict_musics[Mchoix], Mchoix, Mcode, dict_musics[Mchoix], Mchoix, Mcode)#Possiblement problématique
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE oeuvre_musicale SET %s = '%s' WHERE ressource='%s';"%(dict_musics[Mchoix], Mvaleur, Mcode, dict_musics[Mchoix], Mchoix, Mcode)#Possiblement problématique
         elif Mchoix<=6:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_musics[Mchoix], Mchoix, Mcode)
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_musics[Mchoix], Mvaleur, Mcode)
         else:
-            sql = "UPDATE oeuvre_musicale SET %s = '%s' WHERE ressource='%s';"%(dict_musics[Mchoix], Mchoix, Mcode)
+            sql = "UPDATE oeuvre_musicale SET %s = '%s' WHERE ressource='%s';"%(dict_musics[Mchoix], Mvaleur, Mcode)
 
     else:
         print("1 code \n2 titre \n3 date_apparition \n4 editeur \n5 genre \n6 code_classification \n7 langue \n8 longeur \n9 synopsis\n")
@@ -305,9 +305,9 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
             print(sql)
             print("\n")
         elif Mchoix<=6:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_films[Mchoix], Mchoix, Mcode)
+            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_films[Mchoix], Mvaleur, Mcode)
         else:
-            sql = "UPDATE film SET %s = '%s' WHERE ressource='%s';"%(dict_films[Mchoix], Mchoix, Mcode)
+            sql = "UPDATE film SET %s = '%s' WHERE ressource='%s';"%(dict_films[Mchoix], Mvaleur, Mcode)
     
     try:
         cur.execute(sql)
@@ -338,7 +338,7 @@ def supprimer_document(cur, login): #Fonction non testée, serveur PSQL est en p
             else:
                 tester = True
     sql = "delete from ressource where code='%s'"%Scode
-    sql.execute()
+    cur.execute(sql)
 
 def gerer_ressources(cur, login):
     user_choix1 = -1
