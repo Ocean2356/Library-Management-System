@@ -1,13 +1,15 @@
 def recherche(cur):
     print("Entrer les mots clés à rechercher pour chaque champ")
     titre = input("Titre : ")
-    # d = input("Date d'apparition : ")
     editeur = input("Éditeur : ")
     genre = input("Genre : ")
-    # c = input("Contributeur : ")
     sql = """SELECT r.* FROM ressource r WHERE r.titre LIKE '%"""+titre+"""%' AND r.editeur LIKE '%"""+editeur+"""%' AND r.genre LIKE '%"""+genre+"""%';"""
     cur.execute(sql)
     raw = cur.fetchall()
+    sql = "SELECT exemplaire, COUNT(exemplaire) AS nb FROM Pret GROUP BY exemplaire;"
+    cur.execute(sql)
+    nb_pret = cur.fetchall()
+    print(nb_pret)
     for ligne in raw:
         print("--------------------------------------------------------")
         print("Le titre du document est : ",ligne[1])
@@ -16,6 +18,9 @@ def recherche(cur):
         print("Le genre du document est : ",ligne[4])
         print("Le code de classification de la ressource est : ",ligne[5])
         print("Le code de la ressource est : ",ligne[0])
+        for i in nb_pret :
+            if ligne[0] == i[0]//100 :
+                print("Le document à été emprunté : ",i[1],"fois")
         code = ligne[0]
 
         # Livre
