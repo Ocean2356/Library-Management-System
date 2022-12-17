@@ -4,6 +4,7 @@
 Faire rapport de projet
 Faire RJSON
 ajouter date recommandation : recupérer année dans un tableau et comparé avec année.
+Mettre toutes les SELECT dans le fichier
 
 --------------------------------------------------------------------------------------------------------------------------------------------
                              PROBLEME A CORRIGER
