@@ -9,7 +9,6 @@ def recherche(cur):
     sql = "SELECT exemplaire, COUNT(exemplaire) AS nb FROM Pret GROUP BY exemplaire;"
     cur.execute(sql)
     nb_pret = cur.fetchall()
-    print(nb_pret)
     for ligne in raw:
         print("--------------------------------------------------------")
         print("Le titre du document est : ",ligne[1])
