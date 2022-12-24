@@ -245,7 +245,7 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
     
     print("Vous voulez modifier quel attribut ?\n")
     if Mcode in livres:
-        print("1 code \n2 titre \n3 date_apparition \n4 editeur \n5 genre \n6 code_classification \n7 isbn \n8 langue \n9 résumé\n")
+        print("1 titre \n2 date_apparition \n3 editeur \n4 genre \n5 code_classification \n6 isbn \n7 langue \n8 résumé\n")
         tester = False
         while not tester: 
             try:
@@ -258,15 +258,13 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
                 else:
                     tester = True
         Mvaleur = input("Veuillez saisir la nouvelle valeur : ")
-        if Mchoix==1:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mvaleur, Mcode, dict_livres[Mchoix], Mchoix, Mcode)#Possiblement problématique
-            
-        elif Mchoix<=6:
+        if Mchoix<=5:
             sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_livres[Mchoix], Mvaleur, Mcode)
         else:
             sql = "UPDATE livre SET %s = '%s' WHERE ressource='%s';"%(dict_livres[Mchoix], Mvaleur, Mcode)
     elif Mcode in musics:
-        print("1 code \n2 titre \n3 date_apparition \n4 editeur \n5 genre \n6 code_classification \n7 longeur\n")
+        print("1 titre \n2 date_apparition \n3 editeur \n4 genre \n5 code_classification \n6 longeur\n")
+        
         tester = False
         while not tester: 
             try:
@@ -279,15 +277,13 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
                 else:
                     tester = True
         Mvaleur = input("Veuillez saisir la nouvelle valeur : ")
-        if Mchoix==1:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE oeuvre_musicale SET %s = '%s' WHERE ressource='%s';"%(dict_musics[Mchoix], Mvaleur, Mcode, dict_musics[Mchoix], Mchoix, Mcode)#Possiblement problématique
-        elif Mchoix<=6:
+        if Mchoix<=5:
             sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_musics[Mchoix], Mvaleur, Mcode)
         else:
             sql = "UPDATE oeuvre_musicale SET %s = '%s' WHERE ressource='%s';"%(dict_musics[Mchoix], Mvaleur, Mcode)
 
     else:
-        print("1 code \n2 titre \n3 date_apparition \n4 editeur \n5 genre \n6 code_classification \n7 langue \n8 longeur \n9 synopsis\n")
+        print("1 titre \n2 date_apparition \n3 editeur \n4 genre \n5 code_classification \n6 langue \n7 longeur \n8 synopsis\n")
         tester = False
         while not tester: 
             try:
@@ -300,11 +296,7 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
                 else:
                     tester = True
         Mvaleur = input("Veuillez saisir la nouvelle valeur : ")
-        if Mchoix==1:
-            sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';UPDATE film SET ressource = '%s' WHERE ressource='%s';"%(dict_films[Mchoix], Mvaleur, Mcode, Mvaleur, Mcode)#Possiblement problématique
-            print(sql)
-            print("\n")
-        elif Mchoix<=6:
+        if Mchoix<=5:
             sql = "UPDATE ressource SET %s = '%s' WHERE code='%s';"%(dict_films[Mchoix], Mvaleur, Mcode)
         else:
             sql = "UPDATE film SET %s = '%s' WHERE ressource='%s';"%(dict_films[Mchoix], Mvaleur, Mcode)
@@ -351,3 +343,26 @@ def gerer_ressources(cur, login):
         if user_choix1!="0":
             if user_choix1=="1":
                 ajouter_document(cur, login)
+            elif user_choix1=="2":
+                modifier_document(cur, login)
+            elif user_choix1=="3":
+                supprimer_document(cur, login)
+            else :
+                print("Veuillez effectuer une saisie valide")
+
+""" HOST = "tuxa.sme.utc"
+USER = "nf18a074"
+PASSWORD = "ulk6EDbE"
+DATABASE = "dbnf18a074"
+conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
+cur = conn.cursor()
+
+
+#ajouter_document(cur, "tutu.yuan") 
+#modifier_document(cur, "tutu.yuan")
+supprimer_document(cur, "tutu.yuan")
+
+conn.commit()
+
+conn.close()
+ """
