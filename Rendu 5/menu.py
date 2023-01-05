@@ -48,7 +48,7 @@ def adherant(cur, login):
 def admin(cur, login):
     #partie menu admin
     user_choix1 = -1
-    while user_choix1!="0": #partie adhérant pour l'instant
+    while user_choix1!="0": #partie admin pour l'instant
         print("--------------------------------------------------------")
         print("1 Gérer les ressources") #Jingfang
         print("2 Gestion des prêts") #Lilian
@@ -72,7 +72,7 @@ def admin(cur, login):
 user_choix = -1
 conn = connexion()
 cur = conn.cursor()
-while user_choix!="0": #partie adhérant pour l'instant
+while user_choix!="0":
     print("--------------------------------------------------------")
     print("1 Connexion")
     print("0 Quitter")
