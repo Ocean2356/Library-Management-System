@@ -225,7 +225,7 @@ def ajouter_adherent (cur) :
             print("L'adhérent existe déjà")
         else:
             # Ajout de l'adhérent
-            sql = "INSERT INTO adherent (numero_carte, nom, prenom,date_de_naissance, adresse, email, tel, actuelle) VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%d', %s);" % (id_adherent, nom, prenom, date(Nyear, Nmonth, Nday), adresse, email, tel, False)
+            sql = "INSERT INTO adherent (numero_carte, nom, prenom,date_de_naissance, adresse, email, tel, actuelle) VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%d', %s);" % (id_adherent, nom, prenom, date(Nyear, Nmonth, Nday), adresse, email, tel, True)
             cur.execute(sql)
             # Creation compte Nouvel Adhérent non blacklister par défaut
             sql = "INSERT INTO compte_adherent (login, mot_de_passe, blackliste, adherent) VALUES ('%s', '%s', %s '%d');" % (login, mot_de_passe, False, id_adherent)
