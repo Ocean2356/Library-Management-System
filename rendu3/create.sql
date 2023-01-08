@@ -95,7 +95,7 @@ CREATE TABLE sanction(
     remboursement MONEY NOT NULL CHECK(remboursement::money::numeric::float8 >=0),
     remboursement_du BOOLEAN NOT NULL,
     PRIMARY KEY (adherent, exemplaire, code_ressource, date_pret),
-    FOREIGN KEY (adherent, exemplaire, code_ressource, date_pret) REFERENCES pret(adherent, exemplaire, code_ressource, date_pret)
+    FOREIGN KEY (adherent, exemplaire, code_ressource, date_pret) REFERENCES pret(adherent, exemplaire, code_ressource, date_pret) ON DELETE CASCADE
 );
 
 /* CREATE TABLE livre(
