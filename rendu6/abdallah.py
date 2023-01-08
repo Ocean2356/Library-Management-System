@@ -5,7 +5,7 @@ def gerer_user(cur, login):
     user_choix = -1
     while user_choix != "0":
         print("--------------------------------------------------------")
-        print("1 Afficher les adhérents sanctionés")
+        print("1 Afficher les adhérents sanctionnés")
         print("2 Sanctionner un adhérent")
         print("3 Afficher les adhérents blacklistés")
         print("4 Gestions de la blacklistes")
@@ -14,13 +14,13 @@ def gerer_user(cur, login):
         user_choix = input("Sélectioner un choix : ")
         if user_choix != "0":
             if user_choix == "1":
-                Affichage_sanction(cur)
+                affichage_sanction(cur)
             elif user_choix == "2":
-                Ajouter_sanction(cur)
+                ajouter_sanction(cur)
             elif user_choix == "3":
-                Affichage_blackliste(cur)
+                affichage_blackliste(cur)
             elif user_choix == "4":
-                Blacklister_adherent(cur)
+                blacklister_adherent(cur)
             elif user_choix == "5":
                 user_choix = input("1 pour ajouter un adherant, 2 pour ajouter un personnel : ")
                 if user_choix == "1":  
@@ -32,7 +32,7 @@ def gerer_user(cur, login):
             else:
                 print("Veuillez effectuer une saisie valide !")
 
-def Affichage_sanction(cur):
+def affichage_sanction(cur):
     user_choix = -1
     i_sanction = 0
     sql="select * from sanction "
@@ -41,7 +41,7 @@ def Affichage_sanction(cur):
     #Aucune sanction
     if raw == []:
         print("--------------------")
-        print("Aucun adhérent sanctioné")
+        print("Aucun adhérent sanctionné")
         print("--------------------")
         user_choix = "0"
     #Afficheage des prêts en cour
@@ -65,7 +65,7 @@ def Affichage_sanction(cur):
             elif i_sanction+1 == nombre_sanction:
                 i_sanction = 0
 
-def Ajouter_sanction(cur):
+def ajouter_sanction(cur):
     # login
     print("Entrer le login de l'adherent à sanctionner")
     login_adh = input("Login : ")
@@ -121,7 +121,7 @@ def Ajouter_sanction(cur):
     sql = "insert into sanction(adherent,exemplaire,code_ressource,date_pret,duree_sanction,remboursement,remboursement_du ) values ('%s','%s','%s','%s','%s','%s','%s');" % (login_adh, exemplaire, code_ressource, date(Nyear_pret, Nmonth_pret, Nday_pret), dureesanction, remboursement,remboursement_du)
     cur.execute(sql)
 
-def Affichage_blackliste(cur):
+def affichage_blackliste(cur):
     user_choix = -1
     i_sanction = 0
     sql="select * from compte_adherent where blackliste='1' "
@@ -149,9 +149,8 @@ def Affichage_blackliste(cur):
             elif i_sanction+1 == nombre_sanction:
                 i_sanction = 0
 
-def Blacklister_adherent(cur):
-    
-    
+def blacklister_adherent(cur):
+        
     user_choix = -1
     while user_choix != "0":
         print("--------------------------------------------------------")
@@ -174,6 +173,7 @@ def Blacklister_adherent(cur):
                 cur.execute(sql)
             else:
                 print("Veuillez effectuer une saisie valide !")
+                
 def ajouter_personnel (cur) :
     # Demande de saisie des informations du personnel à ajouter
     id_personnel = int(input("Veuillez saisir l'id du personnel : "))
