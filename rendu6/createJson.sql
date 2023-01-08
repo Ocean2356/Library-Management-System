@@ -59,8 +59,7 @@ CREATE TABLE ressource(
     editeur VARCHAR NOT NULL,
     genre VARCHAR NOT NULL,
     code_classification INTEGER NOT NULL,
-    exemplaire JSON,
-    contributeur JSON
+    contributeur JSON NOT NULL
 );
 
 CREATE TABLE exemplaire(
@@ -141,43 +140,7 @@ CREATE TABLE oeuvre_musicale(
     ressource INTEGER PRIMARY KEY REFERENCES ressource(code) ON DELETE CASCADE
 );
 
-CREATE TABLE contributeur(
-    id_contributeur INTEGER PRIMARY KEY,
-    nom VARCHAR NOT NULL,
-    prenom VARCHAR NOT NULL,
-    date_de_naissance DATE NOT NULL CHECK(date_de_naissance < current_date),
-    nationalite VARCHAR NOT NULL
-);
 
-CREATE TABLE auteur(
-    livre INTEGER NOT NULL REFERENCES livre(ressource) ON DELETE CASCADE,
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
-    PRIMARY KEY(livre, id_contributeur)
-);
-
-CREATE TABLE compositeur(
-    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(ressource) ON DELETE CASCADE,
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
-    PRIMARY KEY(musique, id_contributeur)
-);
-
-CREATE TABLE interprete(
-    musique INTEGER NOT NULL REFERENCES oeuvre_musicale(ressource) ON DELETE CASCADE,
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
-    PRIMARY KEY(musique, id_contributeur)
-);
-
-CREATE TABLE realisateur(
-    film INTEGER NOT NULL REFERENCES film(ressource) ON DELETE CASCADE,
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
-    PRIMARY KEY(film,id_contributeur)
-);
-
-CREATE TABLE acteur( -- without 's'
-    film INTEGER NOT NULL REFERENCES film(ressource) ON DELETE CASCADE,
-    id_contributeur INTEGER NOT NULL REFERENCES contributeur(id_contributeur) ON DELETE CASCADE,
-    PRIMARY KEY(film,id_contributeur)
-);
 
 CREATE VIEW film_all AS 
 SELECT r.*, f.langue, f.longeur, f.synopsis FROM ressource r JOIN film f ON r.code=f.ressource; 
