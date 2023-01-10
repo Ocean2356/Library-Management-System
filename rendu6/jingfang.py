@@ -1,7 +1,7 @@
 from datetime import date
 import psycopg2
 
-def ajouter_document(cur, login):
+def ajouter_document(cur):
     sql = "select code from ressource;"
     cur.execute(sql)
     raw = cur.fetchall()
@@ -110,7 +110,8 @@ def contributeur(Ncode, NtypeRessource, cur):
         for ligne in raw:
             print("\t%s \t%s \t%s\n"%(ligne[0], ligne[1], ligne[2]))
             existants.append(ligne[0])
-    Nid_contributeur = int(input("Veuillez saisir le ID contributeur : "))#A améliorer
+
+    Nid_contributeur = int(input("Veuillez saisir le ID contributeur :"))
     if Nid_contributeur not in existants:
         #Nouveau contributeur
         #Partie nom prénom
@@ -186,7 +187,65 @@ def contributeur(Ncode, NtypeRessource, cur):
     
     cur.execute(sql)
 
-def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est en panne 
+
+def ajouter_contributeur(cur):
+    print("Livre : \n")
+    sql = "select * from livre;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    existantsL = []
+    if not raw:
+        print("Liste vide\n")
+    else:
+        print("\tcode \tisbn \tlangue \trésumé")
+        for ligne in raw:
+            print("\t%s \t%s \t%s \t%s\n"%(ligne[3], ligne[0], ligne[1], ligne[2]))
+            existantsL.append(ligne[3])
+    print("Film : ")
+    sql = "select * from film;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    existantsF = []
+    if not raw:
+        print("Liste vide\n")
+    else:
+        print("\tcode \tlangue \tlongueur \tsynopsis")
+        for ligne in raw:
+            print("\t%s \t%s \t%s \t%s\n"%(ligne[3], ligne[0], ligne[1], ligne[2]))
+            existantsF.append(ligne[3])
+    print("oeuvre_musicale : ")
+    sql = "select * from oeuvre_musicale;"
+    cur.execute(sql)
+    raw = cur.fetchall()
+    existantsO = []
+    if not raw:
+        print("Liste vide\n")
+    else:
+        print("\tcode \tlongeur")
+        for ligne in raw:
+            print("\t%s \t%s\n"%(ligne[1], ligne[0]))
+            existantsO.append(ligne[1])
+
+    tester = False
+    while not tester: 
+        try:
+            Scode = int(input("À quelle ressource vous voulez ajouter un contributeur ?"))
+        except Exception:
+            print("Problème de saisie\n")
+        else:
+            if Scode != "exit" and Scode not in existantsL and Scode not in existantsF and Scode not in existantsO:
+                print("Le code saisi n'est pas dans le système! Veuillez réessayer. Si vous voulez quitter, entrez exit\n")
+            else:
+                tester = True
+    if Scode != "exit":
+        if Scode in existantsL:
+            contributeur(Scode, 3, cur)
+        elif Scode in existantsF:
+            contributeur(Scode, 1, cur)
+        else:
+            contributeur(Scode, 2, cur)
+
+def modifier_document(cur):     
     dict_livres = {1:"code",  2:"titre", 3:"date_apparition", 4:"editeur", 5:"genre", 6:"code_classification", 7:"ISBN", 8:"langue", 9:"résumé"}
     dict_musics = {1:"code",  2:"titre", 3:"date_apparition", 4:"editeur", 5:"genre", 6:"code_classification", 7:"longeur"}
     dict_films = {1:"code",  2:"titre", 3:"date_apparition", 4:"editeur", 5:"genre", 6:"code_classification", 7:"langue", 8:"longeur", 9:"synopsis"}
@@ -306,7 +365,7 @@ def modifier_document(cur, login):      #Fonction non testée, serveur PSQL est 
     except Exception:
         print("Problème lors de l'insertion, opération échouée\n")
 
-def supprimer_document(cur, login): #Fonction non testée, serveur PSQL est en panne 
+def supprimer_document(cur):
     sql = "select * from ressource;"
     cur.execute(sql)
     raw = cur.fetchall()
@@ -329,40 +388,50 @@ def supprimer_document(cur, login): #Fonction non testée, serveur PSQL est en p
                 print("Le code saisi n'est pas dans le système! Veuillez réessayer. Si vous voulez quitter, entrez exit\n")
             else:
                 tester = True
-    sql = "delete from ressource where code='%s'"%Scode
-    cur.execute(sql)
+    if Scode != "exit":
+        sql = "delete from ressource where code='%s'"%Scode
+        cur.execute(sql)
 
-def gerer_ressources(cur, login):
+def gerer_ressources(cur):
     user_choix1 = -1
     while user_choix1!="0":
         print("1 Ajouter un nouveau document") 
         print("2 Modifier un document")
-        print("3 Supprimer un document")
+        print("3 Ajouter un contributeur")
+        print("4 Supprimer un document")
         print("0 Quitter")
         user_choix1 = input("Sélectionner un choix : ")
         if user_choix1!="0":
             if user_choix1=="1":
-                ajouter_document(cur, login)
+                ajouter_document(cur)
             elif user_choix1=="2":
-                modifier_document(cur, login)
+                modifier_document(cur)
             elif user_choix1=="3":
-                supprimer_document(cur, login)
+                ajouter_contributeur(cur)
+            elif user_choix1=="4":
+                supprimer_document(cur)
             else :
                 print("Veuillez effectuer une saisie valide")
 
-""" HOST = "tuxa.sme.utc"
-USER = "nf18a074"
-PASSWORD = "ulk6EDbE"
-DATABASE = "dbnf18a074"
-conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
-cur = conn.cursor()
 
 
-#ajouter_document(cur, "tutu.yuan") 
-#modifier_document(cur, "tutu.yuan")
-supprimer_document(cur, "tutu.yuan")
+def main():
+    HOST = "tuxa.sme.utc"
+    USER = "nf18a074"
+    PASSWORD = "ulk6EDbE"
+    DATABASE = "dbnf18a074"
+    conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
+    cur = conn.cursor()
 
-conn.commit()
 
-conn.close()
- """
+    #ajouter_document(cur, "tutu.yuan") 
+    #modifier_document(cur, "tutu.yuan")
+    #supprimer_document(cur, "tutu.yuan")
+    #ajouter_contributeur(cur)
+    gerer_ressources(cur)
+    conn.commit()
+
+    conn.close()
+
+if __name__=="__main__":
+    main()
