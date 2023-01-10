@@ -6,17 +6,17 @@ from abdallah import gerer_user
 
 
 # Login PSQL
-def connexion():
+""" def connexion():
     conn = psycopg2.connect(
         user="postgres",
         password="2812",
         host="localhost",
         port="5432",
         database="postgres")
-    return conn
+    return conn """
 
 
-"""
+
 # Login BDD UTC
 def connexion():
     HOST = "tuxa.sme.utc"
@@ -25,7 +25,7 @@ def connexion():
     DATABASE = "dbnf18a074"
     conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" % (HOST, DATABASE, USER, PASSWORD))
     return conn
-"""
+
 
 
 def adherant(cur, login):
@@ -62,7 +62,7 @@ def admin(cur, login):
         user_choix1 = input("Sélectionner un choix : ")
         if user_choix1 != "0":
             if user_choix1 == "1":
-                gerer_ressources(cur, login)
+                gerer_ressources(cur)
             elif user_choix1 == "2":
                 gerer_pret(cur)
             elif user_choix1 == "3":
@@ -72,34 +72,37 @@ def admin(cur, login):
             else:
                 print("Veuillez effectuer une saisie valide !")
 
-
-user_choix = -1
-conn = connexion()
-cur = conn.cursor()
-while user_choix != "0":
-    print("--------------------------------------------------------")
-    print("1 Connexion")
-    print("0 Quitter")
-    user_choix = input("Saisir votre choix : ")
-    # Partie log in
-    if user_choix == "1":
-        login = input("Saisir votre login : ")
-        mot_de_passe = input("Saisir votre mot de passe : ")
-        # login = "tutu.yuan"
-        # mot_de_passe = "iop"
-        sql = "select login, mot_de_passe from compte_adherent where login='%s' and mot_de_passe='%s';" % (login, mot_de_passe)
-        cur.execute(sql)
-        raw = cur.fetchone()
-        if raw:
-            adherant(cur, login)
-        else:
-            sql = "select login, mot_de_passe from compte_personnel where login='%s' and mot_de_passe='%s';" % (login, mot_de_passe)
+def main():
+    user_choix = -1
+    conn = connexion()
+    cur = conn.cursor()
+    while user_choix != "0":
+        print("--------------------------------------------------------")
+        print("1 Connexion")
+        print("0 Quitter")
+        user_choix = input("Saisir votre choix : ")
+        # Partie log in
+        if user_choix == "1":
+            login = input("Saisir votre login : ")
+            mot_de_passe = input("Saisir votre mot de passe : ")
+            # login = "tutu.yuan"
+            # mot_de_passe = "iop"
+            sql = "select login, mot_de_passe from compte_adherent where login='%s' and mot_de_passe='%s';" % (login, mot_de_passe)
             cur.execute(sql)
             raw = cur.fetchone()
             if raw:
-                admin(cur, login)
+                adherant(cur, login)
             else:
-                print("Saisie non valide !")
-        conn.commit()
+                sql = "select login, mot_de_passe from compte_personnel where login='%s' and mot_de_passe='%s';" % (login, mot_de_passe)
+                cur.execute(sql)
+                raw = cur.fetchone()
+                if raw:
+                    admin(cur, login)
+                else:
+                    print("Saisie non valide !")
+            conn.commit()
 
-conn.close()
+    conn.close()
+
+if __name__=="__main__":
+    main()
