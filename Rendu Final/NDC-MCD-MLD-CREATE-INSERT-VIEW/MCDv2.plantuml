@@ -1,0 +1,171 @@
+@startuml MCD_Biblio
+!theme sketchy-outline
+skinparam activity {
+    ArrowFontSize 10
+}
+skinparam groupInheritance 2
+skinparam Shadowing true
+annotation ANNOTATION #aliceblue;line:blue;line.dotted;text:blue 
+{
+    le compte_personnel 
+    a accès à tous modifier
+}
+' etat -[hidden]u- ANNOTATION
+
+abstract class ressource
+class exemplaire
+enum etat 
+
+abstract class compte
+class compte_personnel
+class personnel 
+class compte_adherant
+class adherant
+
+class pret 
+class sanction
+class reservation
+
+together {
+class livre
+class film
+class enregistrement_musical
+}
+class auteur
+class realisateur
+class acteur
+class compositeur
+class interprete
+
+compte <|-- compte_adherant
+'compte_adherant -|> compte
+'compte <|- compte_personnel
+compte_personnel -|> compte
+
+personnel "1" - "1" compte_personnel
+'compte_personnel "*" -- "*" ressource
+'compte_adherant "1" - "1" adherant
+adherant "1" - "0..1" compte_adherant
+compte_adherant "*" -- "*" exemplaire
+' exemplaire "*" - "*" compte_adherant
+' (compte_adherant, exemplaire) . pret
+(exemplaire, compte_adherant) . pret
+compte_adherant "*" -- "*" ressource
+(compte_adherant, ressource) .. reservation
+
+etat -[hidden]r-exemplaire
+' ressource *-- "*" exemplaire
+exemplaire "*" -* ressource
+
+sanction "0..1"-* pret
+
+ressource <|-- livre
+ressource <|-- film
+ressource <|-- enregistrement_musical
+
+livre "*" -- "1..*" contributeur
+(livre, contributeur) . auteur
+enregistrement_musical "*" - "1..*" contributeur
+(enregistrement_musical, contributeur) . compositeur
+enregistrement_musical "*" - "1..*" contributeur
+(enregistrement_musical, contributeur) . interprete
+film "*" - "1..*" contributeur
+(film, contributeur) . realisateur
+film "*" - "1..*" contributeur
+(film, contributeur) . acteur
+
+enum etat{
+    neuf 
+    bon
+    abime 
+    perdu
+}
+
+abstract class ressource{
+    code : numeric {key}
+    titre : text
+    dateApparition : date 
+    editeur : text
+    genre : text
+    codeClassification : numeric
+}
+
+class contributeur{
+    nom : text
+    prenom : text
+    dateNaissance : date
+    nationalite : text
+}
+
+class livre{
+    ISBN : numeric {key}
+    resume : text
+    langue : text
+}
+
+class film{
+    longeur : integer
+    langue : text
+    synosis : text
+}
+
+class enregistrement_musical{
+    longeur : integer
+}
+
+class exemplaire{
+    idExemplaire : numeric {local key}
+    etat : etat
+}
+
+class personnel{
+    nom : text
+    prenom : text
+    adresse : text
+    email : text
+}
+
+class compte_personnel{}
+
+class adherant{
+    numeroCarte : numeric {key}
+    nom : text
+    prenom : text
+    dateNaissance : date
+    adresse : text
+    email : text
+    telephone : numeric
+    actuelle : boolean
+}
+
+class compte_adherant{
+    ' etatCompte : boolean
+    suspenduJusque : date {optional}
+    sommeDu : integer
+    blackliste : boolean
+    ' actuelle : boolean
+}
+
+abstract class compte {
+    login : text {key}
+    motDePasse : text
+
+}
+
+class pret{
+    dateEmprunte : date {local key}
+    dureeLimitee : integer
+    dateRetourne : date {optional}
+    etatRetourne : etat {optional}
+}
+
+class sanction{
+    duree_suspension : int 
+    remboursement : monnaie
+}
+
+class reservation{
+    dateReserve : date {local key}
+}
+
+@enduml
